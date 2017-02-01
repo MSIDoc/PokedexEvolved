@@ -6,6 +6,9 @@
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
+    background-color:#ccc;
+    opacity:.96;
+    height:100%;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -28,6 +31,103 @@ textarea {
 {
     width: 100%;
 }
+
+#hello-world {
+	background-color: red;	
+}
+
+#body-content-menu {
+	border-radius:10px;	
+	height:100%;
+	background-color:#B21E15;
+	padding-bottom: 20px;
+}
+
+#pokemon-list {
+	margin-top: 20px;
+	border-radius: 6px;
+}
+
+.pokemon-list-item {
+	color:white;
+	font-family: sans-serif;
+	font-size: 15px;
+}
+
+.pokemon-listing {
+	font-family: sans-serif;
+	font-weight:2px !important;
+}
+
+#pokemon-content{
+
+	border-radius:10px;	
+	/*background-color: #FF1E10;*/
+	background-color: #222222; 
+	height:100%;
+	padding-bottom: 3em;
+}
+
+/* Search Box */
+
+#custom-search-input{
+    padding: 3px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+}
+
+#custom-search-input button{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+    font-size: 23px;
+}
+
+/* End Search Box */
+
+
+
+.stat-row {
+	color:white;
+	text-align:left;
+}
+
+/* Jumbotron */
+
+.carousel img {
+    min-width: 100%;
+}
+
+.jumbotron { background-size: cover; }
+
+/* Jumbotron */
+
+
+body, html {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: url('/images/pokemon.jpg'); /*linear-gradient(rgb(255, 230, 209), rgb(146, 164, 133));*/
+}
+
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

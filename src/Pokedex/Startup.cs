@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Pokedex.Models.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Pokedex
 {
@@ -33,6 +35,14 @@ namespace Pokedex
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add mysql
+            services.AddEntityFrameworkMySql();
+
+            //Add the pokedex to the services container
+            services.AddDbContext<PokedexContext>(x => x.UseMySql(Configuration.GetConnectionString("Pokedex")));
+            // Add the configuration to the services container
+            services.AddSingleton<IConfigurationRoot>(Configuration);
+
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
@@ -40,8 +50,12 @@ namespace Pokedex
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, PokedexContext pokeDb)
         {
+            //ensure db is created
+            pokeDb.Database.EnsureCreated();
+
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

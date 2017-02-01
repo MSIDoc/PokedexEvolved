@@ -14,11 +14,12 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/styles.css" />
     </environment>
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -37,13 +38,13 @@
                 </ul>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
+    </div>*@
+    <div class="container-fluid body-content">
         @RenderBody()
-        <hr />
+        @*<hr />
         <footer>
             <p>&copy; 2017 - Pokedex</p>
-        </footer>
+        </footer>*@
     </div>
 
     <environment names="Development">
