@@ -18,6 +18,7 @@ namespace Pokedex.Models.Contexts
         }
 
         public DbSet<Pokemon> Pokemon { get; set; }
+        public DbSet<PokemonAttack> PokemonAttack { get; set; }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySql(_connectionString);
     }

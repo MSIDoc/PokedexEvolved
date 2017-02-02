@@ -1,4 +1,4 @@
-@model Pokedex.Models.Entities.Pokemon
+@model Pokedex.Models.ViewModels.CreatePokemonViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,74 +13,82 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <label asp-for="pokemon.Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger" />
+                <input asp-for="pokemon.Name" class="form-control" />
+                <span asp-validation-for="pokemon.Name" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="PokedexNumber" class="col-md-2 control-label"></label>
+            <label asp-for="pokemon.PokedexNumber" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="PokedexNumber" class="form-control" />
-                <span asp-validation-for="PokedexNumber" class="text-danger" />
+                <input asp-for="pokemon.PokedexNumber" class="form-control" />
+                <span asp-validation-for="pokemon.PokedexNumber" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="BaseHitpoints" class="col-md-2 control-label"></label>
+            <label asp-for="pokemon.BaseAttack" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="BaseHitpoints" class="form-control" />
-                <span asp-validation-for="BaseHitpoints" class="text-danger" />
+                <input asp-for="pokemon.BaseAttack" class="form-control" />
+                <span asp-validation-for="pokemon.BaseAttack" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="BaseAttack" class="col-md-2 control-label"></label>
+            <label asp-for="pokemon.BaseDefense" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="BaseAttack" class="form-control" />
-                <span asp-validation-for="BaseAttack" class="text-danger" />
+                <input asp-for="pokemon.BaseDefense" class="form-control" />
+                <span asp-validation-for="pokemon.BaseDefense" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="BaseDefense" class="col-md-2 control-label"></label>
+            <label asp-for="pokemon.BaseHitpoints" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="BaseDefense" class="form-control" />
-                <span asp-validation-for="BaseDefense" class="text-danger" />
+                <input asp-for="pokemon.BaseHitpoints" class="form-control" />
+                <span asp-validation-for="pokemon.BaseHitpoints" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="BaseSpecialAttack" class="col-md-2 control-label"></label>
+            <label asp-for="pokemon.BaseSpecialAttack" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="BaseSpecialAttack" class="form-control" />
-                <span asp-validation-for="BaseSpecialAttack" class="text-danger" />
+                <input asp-for="pokemon.BaseSpecialAttack" class="form-control" />
+                <span asp-validation-for="pokemon.BaseSpecialAttack" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="BaseSpecialDefense" class="col-md-2 control-label"></label>
+            <label asp-for="pokemon.BaseSpecialDefense" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="BaseSpecialDefense" class="form-control" />
-                <span asp-validation-for="BaseSpecialDefense" class="text-danger" />
+                <input asp-for="pokemon.BaseSpecialDefense" class="form-control" />
+                <span asp-validation-for="pokemon.BaseSpecialDefense" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="BaseSpeed" class="col-md-2 control-label"></label>
+            <label asp-for="pokemon.BaseSpeed" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="BaseSpeed" class="form-control" />
-                <span asp-validation-for="BaseSpeed" class="text-danger" />
+                <input asp-for="pokemon.BaseSpeed" class="form-control" />
+                <span asp-validation-for="pokemon.BaseSpeed" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <label asp-for="pokemon.Description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger" />
+                <input asp-for="pokemon.Description" class="form-control" />
+                <span asp-validation-for="pokemon.Description" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div class="checkbox">
-                    <input asp-for="IsInMod" />
-                    <label asp-for="IsInMod"></label>
+                    <input asp-for="pokemon.IsInMod" />
+                    <label asp-for="pokemon.IsInMod"></label>
                 </div>
+            </div>
+        </div>      
+    
+        <div class="form-group">
+            <label class="col-md-2 control-label">Taming Type:</label>
+            <div class="col-md-10">
+                <select asp-for="pokemon.tamingType" asp-items="@Model.TamingTypes" class="form-control"></select>
+                <span asp-validation-for="pokemon.tamingType" class="text-danger" />
             </div>
         </div>
         <div class="form-group">

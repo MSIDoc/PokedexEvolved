@@ -1,10 +1,10 @@
 ﻿@model Pokedex.Models.ViewModels.PokeView
 @*@{
-    ViewData["Title"] = "Home Page";
-}
+        ViewData["Title"] = "Home Page";
+    }
 
 *@
-	<!-- Nav bar start -->
+<!-- Nav bar start -->
 <!-- Nav Bar End -->
 
 
@@ -31,27 +31,27 @@
                     </div>
                 </div>
 
-              
+
 
                 <div id="pokemon-list" class="list-group">
 
-                    @Html.Partial("/Views/Pokemon/Partials/PokeList.cshtml", Model)
+                    @Html.Partial("/Views/Partials/PokeList.cshtml", Model)
                     @*<a href="#" data-dex-id="1" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">1. Bulbasaur</span></a>
-                    <a href="#" data-dex-id="2" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">2. Ivysaur</span></a>
-                    <a href="#" data-dex-id="3" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">3. Venusaur</span></a>
-                    <a href="#" data-dex-id="4" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">4. Charmander</span></a>
-                    <a href="#" data-dex-id="5" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">5. Charmeleon</span></a>
-                    <a href="#" data-dex-id="6" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">6. Charizard</span></a>
-                    <a href="#" data-dex-id="7" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">7. Squirtle</span></a>
-                    <a href="#" data-dex-id="8" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">8. Wartortle</span></a>
-                    <a href="#" data-dex-id="9" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">9. Blastoise</span></a>
-                    <a href="#" data-dex-id="10" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">10. Caterpie</span></a>
-                    <a href="#" data-dex-id="11" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">11. Metapod</span></a>
-                    <a href="#" data-dex-id="12" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">12. Butterfree</span></a>
-                    <a href="#" data-dex-id="13" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">13. Weedle</span></a>
-                    <a href="#" data-dex-id="14" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">14. Kakuna</span></a>
-                    <a href="#" data-dex-id="15" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">15. Beedrill</span></a>
-                    <a href="#" data-dex-id="16" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">16. Weedle</span></a>*@
+                        <a href="#" data-dex-id="2" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">2. Ivysaur</span></a>
+                        <a href="#" data-dex-id="3" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">3. Venusaur</span></a>
+                        <a href="#" data-dex-id="4" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">4. Charmander</span></a>
+                        <a href="#" data-dex-id="5" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">5. Charmeleon</span></a>
+                        <a href="#" data-dex-id="6" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">6. Charizard</span></a>
+                        <a href="#" data-dex-id="7" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">7. Squirtle</span></a>
+                        <a href="#" data-dex-id="8" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">8. Wartortle</span></a>
+                        <a href="#" data-dex-id="9" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">9. Blastoise</span></a>
+                        <a href="#" data-dex-id="10" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">10. Caterpie</span></a>
+                        <a href="#" data-dex-id="11" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">11. Metapod</span></a>
+                        <a href="#" data-dex-id="12" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">12. Butterfree</span></a>
+                        <a href="#" data-dex-id="13" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">13. Weedle</span></a>
+                        <a href="#" data-dex-id="14" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">14. Kakuna</span></a>
+                        <a href="#" data-dex-id="15" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">15. Beedrill</span></a>
+                        <a href="#" data-dex-id="16" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">16. Weedle</span></a>*@
                 </div>
 
             </div>
@@ -62,146 +62,6 @@
 
 <div id="pokemon-content" class="col-lg-9 visible-lg">
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="pokemon-title"><h2 style="color:#fff">Bulbasaur - <span class="pokedex-num">1</span></h2></div>
-                <div class="stat-section">
-                    <h3 class="stat-row">Stats</h3>
-
-                    <div class="stats-container">
-
-
-                        <div class="row stat-row text-center">
-                            <div class="col-lg-2"><span class="atkLabel">HP</span></div>
-                            <div class="col-lg-2"><span class="atkValue">45</span></div>
-                            <div class="col-lg-4"><span class="atkLabel">ARK HP Value</span></div>
-                            <div class="col-lg-2"><span class="atkValue">437.5 HP</span></div>
-                        </div>
-                        <div class="row stat-row text-center">
-                            <div class="col-lg-2"><span class="atkLabel">Attack</span></div>
-                            <div class="col-lg-2"><span class="atkValue">49</span></div>
-                            <div class="col-lg-4"><span class="atkLabel">ARK Attack Value</span></div>
-                            <div class="col-lg-2"><span class="atkValue">43.5</span></div>
-                        </div>
-                        <div class="row stat-row text-center">
-                            <div class="col-lg-2"><span class="atkLabel">Defense</span></div>
-                            <div class="col-lg-2"><span class="atkValue">49</span></div>
-                            <div class="col-lg-4"><span class="atkLabel">ARK Defense Value</span></div>
-                            <div class="col-lg-2"><span class="atkValue">+218.75 HP</span></div>
-                        </div>
-
-                        <div class="row stat-row text-center">
-                            <div class="col-lg-2"><span class="atkLabel">Sp. Attack</span></div>
-                            <div class="col-lg-2"><span class="atkValue">65</span></div>
-                            <div class="col-lg-4"><span class="atkLabel">ARK Attack Value</span></div>
-                            <div class="col-lg-2"><span class="atkValue">400</span></div>
-                        </div>
-
-                        <div class="row stat-row text-center">
-                            <div class="col-lg-2"><span class="atkLabel">Sp. Defense</span></div>
-                            <div class="col-lg-2"><span class="atkValue">65</span></div>
-                            <div class="col-lg-4"><span class="atkLabel">ARK Attack Value</span></div>
-                            <div class="col-lg-2"><span class="atkValue">400</span></div>
-                        </div>
-
-                        <div class="row stat-row text-center">
-                            <div class="col-lg-2"><span class="atkLabel">Speed</span></div>
-                            <div class="col-lg-2"><span class="atkValue">45</span></div>
-                            <div class="col-lg-4"><span class="atkLabel">ARK stat effects</span></div>
-                            <div class="col-lg-2"><span class="atkValue">400</span></div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="meta-panel">
-                    <div class="row stat-row">
-                        <div class="tame-type-label col-lg-2">Taming type:</div><div class="tame-type-value col-lg-2">Herbivore</div>
-                    </div>
-
-                    <div class="row stat-row">
-                        <div class="move-set-block">
-                            <div class="left-click-move">Left Click:</div>
-                            <div class="right-click-move">Right Click:</div>
-                            <div class="c-move">c Move:</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="col-lg-6">
-                <div class="pokemon-images">
-                    <!-- Make a jumbotron? -->
-
-                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                        </ol>
-
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                                <img src="~/images/flareon.jpg" alt="flareon">
-                                <div class="carousel-caption">
-                                    Flareon in the fild
-                                </div>
-                            </div>
-                            <div class="item">
-                                <img src="~/images/flareon2.jpg" alt="flareon">
-                                <div class="carousel-caption">
-                                    Flareon duplicate
-                                </div>
-                            </div>
-                            <div class="item">
-                                <img src="~/images/flareon3.jpg" alt="flareon">
-                                <div class="carousel-caption">
-                                    Flareon the majestic
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Controls -->
-                        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                </div>
-
-
-
-                <div class="row stat-row">
-                    <div class="gathering-table">
-                        <table id="gathering-table" class="table table-bordered table-condensed">
-                            <th>Resource</th>
-                            <th>Can Gather</th>
-                            <tr><td>Berries</td><td>Yes</td></tr>
-                            <tr><td>Stone</td><td>No</td></tr>
-                            <tr><td>Fiber</td><td>No</td></tr>
-                            <tr><td>Wood/Thatch</td><td>Yes</td></tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-
-
-
-
-
-    </div>
+    @Html.Partial("/Views/Partials/PokeDetails.cshtml")
 
 </div>

@@ -14,16 +14,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PokedexNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.BaseAttack)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.BaseDefense)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BaseHitpoints)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.BaseSpecialAttack)
@@ -40,47 +37,60 @@
             <th>
                 @Html.DisplayNameFor(model => model.IsInMod)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PokedexNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tamingType)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PokedexNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BaseAttack)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BaseDefense)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BaseSpecialAttack)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BaseSpecialDefense)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BaseSpeed)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsInMod)
-                </td>
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BaseAttack)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BaseDefense)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BaseHitpoints)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BaseSpecialAttack)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BaseSpecialDefense)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BaseSpeed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsInMod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PokedexNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tamingType)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

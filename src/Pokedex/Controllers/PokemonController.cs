@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Pokedex.Models.Entities;
 using Pokedex.Models.Contexts;
+using Pokedex.Models.ViewModels;
 
 namespace Pokedex
 {
@@ -46,7 +47,8 @@ namespace Pokedex
         // GET: Pokemon/Create
         public IActionResult Create()
         {
-            return View();
+            var cpv = new CreatePokemonViewModel();
+            return View(cpv);
         }
 
         // POST: Pokemon/Create

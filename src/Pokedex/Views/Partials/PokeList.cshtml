@@ -1,7 +1,7 @@
 ﻿@model Pokedex.Models.ViewModels.PokeView
 
 
-@foreach (var item in Model.pokemon)
+@foreach (var item in Model.PokemonList)
 {
     <a href="@Url.Link("/Pokemon/View", item.Name)" data-dex-id="@item.PokedexNumber" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">@( $"{item.PokedexNumber}. {item.Name}" )</span></a>
 }

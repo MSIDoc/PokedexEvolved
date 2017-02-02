@@ -28,6 +28,13 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="BaseHitpoints" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="BaseHitpoints" class="form-control" />
+                <span asp-validation-for="BaseHitpoints" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="BaseSpecialAttack" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="BaseSpecialAttack" class="form-control" />
@@ -75,6 +82,13 @@
             <div class="col-md-10">
                 <input asp-for="PokedexNumber" class="form-control" />
                 <span asp-validation-for="PokedexNumber" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="tamingType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="tamingType" class="form-control"></select>
+                <span asp-validation-for="tamingType" class="text-danger" />
             </div>
         </div>
         <div class="form-group">

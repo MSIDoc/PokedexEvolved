@@ -1,14 +1,23 @@
-﻿using Pokedex.Models.Entities;
-using System;
+﻿using Microsoft.Extensions.Configuration;
+using Pokedex.Models.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Pokedex.Models.ViewModels
 {
     public class PokeView
     {
-        public List<Pokemon> pokemon { get; set; }
+        private readonly IConfigurationRoot _config;
+
+        public PokeView(IConfigurationRoot config)
+        {
+            _config = config;
+        }
+
+        public Pokemon Pokemon { get; set; }
+
+        public ArkPokemonStats PokemonArkStats { get { return new ArkPokemonStats(this.Pokemon, _config); } }
+
+        public List<Pokemon> PokemonList { get; set; }
 
     }
 }

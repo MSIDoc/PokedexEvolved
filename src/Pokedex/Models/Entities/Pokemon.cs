@@ -24,7 +24,7 @@ namespace Pokedex.Models.Entities
         public string Name { get; set; }
 
         [Required]
-        [Display(Name ="Base Hitpoints")]
+        [Display(Name = "Base Hitpoints")]
         public double BaseHitpoints { get; set; }
 
         [Required]
@@ -56,9 +56,20 @@ namespace Pokedex.Models.Entities
         [Required]
         public bool IsInMod { get; set; }
 
-        [NotMapped]        
-        public string DateReleased { get; set; }
+        public TamingType tamingType { get; set; }
 
+        public List<PokemonAttack> PokemonAttacks { get; set; }
 
+        [NotMapped]
+        public string DateReleased { get; set; }     
+
+        public enum TamingType
+        {
+            PASSIVE = 1,
+            KO_MEAT = 2,
+            KO_BERRIES = 3,
+            TERMINAL_PURCHASE = 4
+
+        }
     }
 }
