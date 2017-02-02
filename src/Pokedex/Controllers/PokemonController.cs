@@ -146,6 +146,13 @@ namespace Pokedex
             return RedirectToAction("Index");
         }
 
+
+        public async Task<IActionResult> Get(int id)
+        {
+            var poke  = await _context.Pokemon.Where(pokemon => pokemon.PokedexNumber == id).ToListAsync();
+            return Json(poke);
+        }
+
         private bool PokemonExists(int id)
         {
             return _context.Pokemon.Any(e => e.ID == id);
