@@ -3,5 +3,16 @@
 
 @foreach (var item in Model.PokemonList)
 {
-    <a href="@Url.Link("/Pokemon/View", item.Name)" data-dex-id="@item.PokedexNumber" class="list-group-item list-group-item-action pokemon"><span class="pokemon-listing">@( $"{item.PokedexNumber}. {item.Name}" )</span></a>
+    <a href="@Url.Link("/Pokemon/View", item.Name)" data-dex-id="@item.PokedexNumber" class="list-group-item list-group-item-action pokemon">
+        <span class="pokemon-listing">@( $"{item.PokedexNumber}. {item.Name}" )</span>
+        @if (item.IsInMod)
+        {
+            <span class="check-mark green"><span class="glyphicon glyphicon-check pull-right"></span></span>
+        }
+        else
+        {
+            <span class="check-mark red"><span class="glyphicon glyphicon-remove pull-right"></span></span>
+        }
+
+    </a>
 }

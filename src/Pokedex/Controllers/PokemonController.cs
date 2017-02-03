@@ -8,14 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using Pokedex.Models.Entities;
 using Pokedex.Models.Contexts;
 using Pokedex.Models.ViewModels;
+using Microsoft.Extensions.Configuration;
 
 namespace Pokedex
 {
     public class PokemonController : Controller
     {
         private readonly PokedexContext _context;
+        private readonly IConfigurationRoot _config;
 
-        public PokemonController(PokedexContext context)
+        public PokemonController(PokedexContext context, IConfigurationRoot config)
         {
             _context = context;    
         }
@@ -149,8 +151,16 @@ namespace Pokedex
 
         public async Task<IActionResult> Get(int id)
         {
-            var poke  = await _context.Pokemon.Where(pokemon => pokemon.PokedexNumber == id).ToListAsync();
-            return Json(poke);
+            //find by the dex number
+            var poke  = await _context.Pokemon.Where(pokemon => pokemon.PokedexNumber == id).FirstOrDefaultAsync();
+
+            // couldn't find it
+            if ( poke == null ) { return NotFound(); }
+
+            // return pokeview
+            var vm = new PokeView(_config) { Pokemon = poke };
+
+            return View("/Views/Partials/PokeDetails.cshtml", vm);
         }
 
         private bool PokemonExists(int id)

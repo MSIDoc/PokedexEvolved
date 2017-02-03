@@ -24,7 +24,7 @@ namespace Pokedex.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var PokeList = await _PokedexContext.Pokemon.Where(pokemon => pokemon.IsInMod).ToListAsync();
+            var PokeList = await _PokedexContext.Pokemon.ToListAsync();
             if (PokeList.Count > 0)
             {
                 return View(new PokeView(_config) { PokemonList = PokeList, Pokemon = PokeList.First() });

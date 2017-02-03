@@ -63,6 +63,8 @@ namespace Pokedex.Models.Entities
         [NotMapped]
         public string DateReleased { get; set; }     
 
+        public double Height { get; set; }
+
         public enum TamingType
         {
             PASSIVE = 1,

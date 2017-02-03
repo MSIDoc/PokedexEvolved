@@ -51,11 +51,9 @@ namespace Pokedex.Models.Entities
 
         public double ArkOxygen => 150;
 
-        public double ArkDamage => _pokemon.BaseAttack * _damage + _pokemon.BaseAttack * _damage + _postEq;
-
-        //idk what size is, ask hmind
-        private double _size = 5;
-        public double ArkWeight => _weight * _size * ArkDamage;
+        public double ArkDamage => _pokemon.BaseAttack * _damage + _pokemon.BaseAttack * _damage + _postEq;        
+        
+        public double ArkWeight => _weight * _pokemon.Height * ArkDamage;
 
         public double ArkMovementSpeed => _pokemon.BaseSpeed * _movementSpeed + _pokemon.BaseSpeed * _movementSpeed * _postEq;
 

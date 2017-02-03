@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Pokelist</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -86,9 +86,9 @@
                 @Html.DisplayFor(modelItem => item.tamingType)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ID"><span class="glyphicon glyphicon-edit"></span></a> |
+                <a asp-action="Details" asp-route-id="@item.ID"><span class="glyphicon glyphicon-eye-open"></span></a> |
+                <a asp-action="Delete" asp-route-id="@item.ID"><span class="glyphicon glyphicon-trash"></span></a>
             </td>
         </tr>
 }
