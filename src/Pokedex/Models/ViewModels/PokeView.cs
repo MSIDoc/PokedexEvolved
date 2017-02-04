@@ -14,8 +14,8 @@ namespace Pokedex.Models.ViewModels
         }
 
         public Pokemon Pokemon { get; set; }
-
-        public ArkPokemonStats PokemonArkStats { get { return new ArkPokemonStats(this.Pokemon, _config); } }
+        
+        public ArkPokemonStats PokemonArkStats { get { return new ArkPokemonStats(Pokemon, _config); } }
 
         public List<Pokemon> PokemonList { get; set; }
 

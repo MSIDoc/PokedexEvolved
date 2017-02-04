@@ -9,7 +9,6 @@
 
                 <div class="stats-container">
 
-
                     <div class="row stat-row text-center">
                         <div class="col-lg-2"><span class="atkLabel">HP</span></div>
                         <div class="col-lg-2"><span class="atkValue">@Model.Pokemon.BaseHitpoints</span></div>
@@ -52,7 +51,6 @@
                 </div>
             </div>
 
-
             <div class="meta-panel">
                 <div class="row stat-row">
                     <div class="tame-type-label col-lg-2">Taming type:</div><div class="tame-type-value col-lg-2">Herbivore</div>
@@ -60,15 +58,13 @@
 
                 <div class="row stat-row">
                     <div class="move-set-block">
-                        <div class="left-click-move">Left Click:</div>
-                        <div class="right-click-move">Right Click:</div>
-                        <div class="c-move">c Move:</div>
+                        <div id="left-click-move">Left Click:</div>
+                        <div id="right-click-move">Right Click:</div>
+                        <div id="c-move">C Move:</div>
                     </div>
                 </div>
             </div>
         </div>
-
-
 
         <div class="col-lg-6">
             <div class="pokemon-images">
@@ -84,6 +80,7 @@
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
+                        
                         <div class="item active">
                             <img src="~/images/flareon.jpg" alt="flareon">
                             <div class="carousel-caption">
@@ -102,7 +99,6 @@
                                 Flareon the majestic
                             </div>
                         </div>
-
                     </div>
 
                     <!-- Controls -->
@@ -117,29 +113,31 @@
                 </div>
             </div>
 
-
-
-
-
             <div class="row stat-row">
                 <div class="gathering-table">
                     <table id="gathering-table" class="table table-bordered table-condensed">
                         <th>Resource</th>
                         <th>Can Gather</th>
-                        <tr><td>Berries</td><td>Yes</td></tr>
-                        <tr><td>Stone</td><td>No</td></tr>
-                        <tr><td>Fiber</td><td>No</td></tr>
-                        <tr><td>Wood/Thatch</td><td>Yes</td></tr>
+                        <tr>
+                            <td>Berries</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Stone</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Fiber</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Wood/Thatch</td>
+                            <td>Yes</td>
+                        </tr>
                     </table>
                 </div>
             </div>
         </div>
-
-
+        
     </div>
-
-
-
-
-
 </div>

@@ -65,6 +65,8 @@ namespace Pokedex.Models.Entities
 
         public double Height { get; set; }
 
+        public long TerminalCost { get; set; }
+
         public enum TamingType
         {
             PASSIVE = 1,

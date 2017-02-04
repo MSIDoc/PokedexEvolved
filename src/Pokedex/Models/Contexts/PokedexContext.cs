@@ -1,10 +1,6 @@
 ﻿using Pokedex.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Pokedex.Models.Contexts
 {
@@ -17,6 +13,7 @@ namespace Pokedex.Models.Contexts
             _connectionString = builder.GetConnectionString("Pokedex");
         }
 
+        public DbSet<PokemonImage> PokemonImages { get; set; }
         public DbSet<Pokemon> Pokemon { get; set; }
         public DbSet<PokemonAttack> PokemonAttack { get; set; }
 

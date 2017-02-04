@@ -13,5 +13,7 @@ namespace Pokedex.Models.ViewModels
         public Pokemon pokemon { get; set; }
 
         public SelectList TamingTypes => new SelectList(new List<string> { "Passive", "KO Berry", "KO Meat", "Terminal Purchase" });
+
+        public List<string> PokeImages { get; set; }
     }
 }

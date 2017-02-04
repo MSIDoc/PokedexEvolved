@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Pokedex.Models.Entities;
 using Pokedex.Models.Contexts;
 using Pokedex.Models.ViewModels;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Pokedex
 {
@@ -16,17 +18,33 @@ namespace Pokedex
     {
         private readonly PokedexContext _context;
         private readonly IConfigurationRoot _config;
+        private readonly IHostingEnvironment _environment;
 
-        public PokemonController(PokedexContext context, IConfigurationRoot config)
+        public PokemonController(PokedexContext context, IConfigurationRoot config, IHostingEnvironment host)
         {
-            _context = context;    
+            _context = context;
+            _config = config;
+            _environment = host;
         }
 
         // GET: Pokemon
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 0)
         {
-            
-            return View(await _context.Pokemon.ToListAsync());
+            var pageSize = 15;
+            var totalCount = _context.Pokemon.Count();
+            var totalPages = totalCount / pageSize;
+            var previousPage = page - 1;
+            var nextPage = page + 1;
+
+            ViewBag.CurrentPage = page;
+            ViewBag.HasPreviousPage = previousPage > 0;
+            ViewBag.PreviousPage = previousPage;
+            ViewBag.HasNextPage = nextPage < totalPages;
+            ViewBag.NextPage = nextPage;
+
+            var pokemon = await _context.Pokemon.Skip(page * pageSize).Take(pageSize).ToArrayAsync();
+
+            return View(pokemon);
         }
 
         // GET: Pokemon/Details/5
@@ -51,6 +69,34 @@ namespace Pokedex
         {
             var cpv = new CreatePokemonViewModel();
             return View(cpv);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber")] Pokemon pokemon, 
+                                                ICollection<IFormFile> files)
+        {
+
+            var uploadDir = Path.Combine(_environment.WebRootPath, "pokemon");
+            foreach (var file in files)
+            {
+                if(file.Length > 0)
+                {
+                    var fileGuid = new Guid();
+
+                    var filePath = Path.Combine(uploadDir, $"{fileGuid.ToString()}.{Path.GetExtension(file.FileName)}");
+
+                    using (var fs = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fs);
+
+                    }
+                }               
+            }
+
+
+
+            return View();
+
         }
 
         // POST: Pokemon/Create
@@ -82,7 +128,15 @@ namespace Pokedex
             {
                 return NotFound();
             }
-            return View(pokemon);
+
+            var cpvm = new CreatePokemonViewModel()
+            {
+                 pokemon = pokemon,
+                 PokeImages = await _context.PokemonImages.Where(p => p.PokemonID == id)
+                .Select(pokeImage => pokeImage.FileSystemName)
+                .ToListAsync()
+            };
+            return View(cpvm);
         }
 
         // POST: Pokemon/Edit/5
@@ -160,7 +214,10 @@ namespace Pokedex
             // return pokeview
             var vm = new PokeView(_config) { Pokemon = poke };
 
-            return View("/Views/Partials/PokeDetails.cshtml", vm);
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRquest")
+                return PartialView("/Views/Partials/PokeDetails.cshtml", vm);
+
+            return PartialView("/Views/Partials/PokeDetails.cshtml", vm);
         }
 
         private bool PokemonExists(int id)
