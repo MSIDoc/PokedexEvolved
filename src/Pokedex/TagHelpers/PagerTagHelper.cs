@@ -30,6 +30,16 @@ namespace Pokedex.TagHelpers
                 output.Content.AppendHtml(@"<li><a href=""#""></li>");
 
             output.Content.AppendHtml(@"</ul>");
+            output.Content.AppendHtml(@"
+            <script type=""text/javascript"">
+                $(document).ready(function(){
+                    $('.pagination a').click(function(){
+                        
+                    });
+                });
+            </script>
+
+            ");
         }
     }
 }

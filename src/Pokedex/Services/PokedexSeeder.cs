@@ -802,8 +802,16 @@ namespace Pokedex.Services
                         new Pokemon{ Name = "Guzzlord", ID = 783, BaseHitpoints = 223, BaseAttack = 101, BaseDefense = 53, BaseSpecialAttack = 97, BaseSpecialDefense = 53, BaseSpeed = 43, Description = @"<p><em>Guzzlord</em> is a <a href=""/type/dark"" class=""itype dark"">Dark</a>/<a href=""/type/dragon"" class=""itype dragon"">Dragon</a> type Pokémon introduced in Generation 7. It is known as the <q>Junkivore Pokémon</q>.</p>", PokedexNumber = 799, IsInMod = false, Height = 5.51},
                         new Pokemon{ Name = "Necrozma", ID = 784, BaseHitpoints = 97, BaseAttack = 107, BaseDefense = 101, BaseSpecialAttack = 127, BaseSpecialDefense = 89, BaseSpeed = 79, Description = @"<p><em>Necrozma</em> is a <a href=""/type/psychic"" class=""itype psychic"">Psychic</a> type Pokémon introduced in Generation 7. It is known as the <q>Prism Pokémon</q>.</p>", PokedexNumber = 800, IsInMod = false, Height = 2.39},
                         new Pokemon{ Name = "Magearna", ID = 785, BaseHitpoints = 80, BaseAttack = 95, BaseDefense = 115, BaseSpecialAttack = 130, BaseSpecialDefense = 115, BaseSpeed = 65, Description = @"<p><em>Magearna</em> is a <a href=""/type/steel"" class=""itype steel"">Steel</a>/<a href=""/type/fairy"" class=""itype fairy"">Fairy</a> type Pokémon introduced in Generation 7. It is known as the <q>Artificial Pokémon</q>.</p>", PokedexNumber = 801, IsInMod = false, Height = 0.99},
-                        new Pokemon{ Name = "Marshadow", ID = 786, BaseHitpoints = 90, BaseAttack = 125, BaseDefense = 80, BaseSpecialAttack = 90, BaseSpecialDefense = 90, BaseSpeed = 125, Description = @"<p><em>Marshadow</em> is a <a href=""/type/fighting"" class=""itype fighting"">Fighting</a>/<a href=""/type/ghost"" class=""itype ghost"">Ghost</a> type Pokémon introduced in Generation 7. It is known as the <q>Gloomdweller Pokémon</q>.</p>", PokedexNumber = 802, IsInMod = false, Height = 0.71}
-                        
+                        new Pokemon{ Name = "Marshadow", ID = 786, BaseHitpoints = 90, BaseAttack = 125, BaseDefense = 80, BaseSpecialAttack = 90, BaseSpecialDefense = 90, BaseSpeed = 125, Description = @"<p><em>Marshadow</em> is a <a href=""/type/fighting"" class=""itype fighting"">Fighting</a>/<a href=""/type/ghost"" class=""itype ghost"">Ghost</a> type Pokémon introduced in Generation 7. It is known as the <q>Gloomdweller Pokémon</q>.</p>", PokedexNumber = 802, IsInMod = false, Height = 0.71}                        
+                    );
+
+
+                context.PokemonHabitat.AddRange(
+                    new PokemonHabitat { ID = 1, Name = "Swamp Biome"},
+                    new PokemonHabitat { ID = 2, Name = "Snow Biome"},
+                    new PokemonHabitat { ID = 3, Name = "Mountains"},
+                    new PokemonHabitat { ID = 4, Name = "Redwood Biome"},
+                    new PokemonHabitat { ID = 5, Name = "Oceans"}                    
                     );
 
                 context.SaveChanges();

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Pokedex.Services;
 
 namespace Pokedex
 {
@@ -30,19 +31,20 @@ namespace Pokedex
         // GET: Pokemon
         public async Task<IActionResult> Index(int page = 0)
         {
-            var pageSize = 15;
+            var pageSize = 20;
             var totalCount = _context.Pokemon.Count();
             var totalPages = totalCount / pageSize;
             var previousPage = page - 1;
             var nextPage = page + 1;
 
             ViewBag.CurrentPage = page;
-            ViewBag.HasPreviousPage = previousPage > 0;
+            ViewBag.HasPreviousPage = previousPage >= 0;
             ViewBag.PreviousPage = previousPage;
             ViewBag.HasNextPage = nextPage < totalPages;
             ViewBag.NextPage = nextPage;
+            ViewBag.TotalPages = totalPages;
 
-            var pokemon = await _context.Pokemon.Skip(page * pageSize).Take(pageSize).ToArrayAsync();
+            var pokemon = await _context.Pokemon.Skip(page * pageSize).Take(pageSize).OrderBy(p => p.PokedexNumber).ToArrayAsync();
 
             return View(pokemon);
         }
@@ -72,48 +74,32 @@ namespace Pokedex
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber")] Pokemon pokemon, 
-                                                ICollection<IFormFile> files)
+        public IActionResult Create([Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber,tamingType")] Pokemon pokemon, 
+                                               ICollection<IFormFile> files)
         {
 
-            var uploadDir = Path.Combine(_environment.WebRootPath, "pokemon");
-            foreach (var file in files)
-            {
-                if(file.Length > 0)
-                {
-                    var fileGuid = new Guid();
-
-                    var filePath = Path.Combine(uploadDir, $"{fileGuid.ToString()}.{Path.GetExtension(file.FileName)}");
-
-                    using (var fs = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fs);
-
-                    }
-                }               
-            }
-
-
-
-            return View();
+            if (PokemonHelper.ProcessImages(files, pokemon, _context, _environment, ModelState).Result)
+                return RedirectToAction("Index");
+            else 
+                return View();
 
         }
 
         // POST: Pokemon/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber")] Pokemon pokemon)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(pokemon);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(pokemon);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber")] Pokemon pokemon)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(pokemon);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(pokemon);
+        //}
 
         // GET: Pokemon/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -133,7 +119,6 @@ namespace Pokedex
             {
                  pokemon = pokemon,
                  PokeImages = await _context.PokemonImages.Where(p => p.PokemonID == id)
-                .Select(pokeImage => pokeImage.FileSystemName)
                 .ToListAsync()
             };
             return View(cpvm);
@@ -144,7 +129,10 @@ namespace Pokedex
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,BaseHitpoints,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber")] Pokemon pokemon)
+        public async Task<IActionResult> Edit(
+                int id,
+                [Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber,tamingType")] Pokemon pokemon,
+                ICollection<IFormFile> files)
         {
             if (id != pokemon.ID)
             {
@@ -218,6 +206,16 @@ namespace Pokedex
                 return PartialView("/Views/Partials/PokeDetails.cshtml", vm);
 
             return PartialView("/Views/Partials/PokeDetails.cshtml", vm);
+        }
+
+        [HttpPost]        
+        public async Task<IActionResult> Search(string keywords)
+        {
+
+            var FilteredPokemon = await _context.Pokemon.Where(pokemon => pokemon.Name.ToLower() == keywords.ToLower()).ToListAsync();
+                       
+
+            return PartialView("/Views/Pokemon/Index.cshtml", FilteredPokemon);
         }
 
         private bool PokemonExists(int id)

@@ -1,8 +1,5 @@
 ﻿using Pokedex.Models.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Pokedex.Models.ViewModels
@@ -12,8 +9,13 @@ namespace Pokedex.Models.ViewModels
 
         public Pokemon pokemon { get; set; }
 
-        public SelectList TamingTypes => new SelectList(new List<string> { "Passive", "KO Berry", "KO Meat", "Terminal Purchase" });
+        public SelectList TamingTypes => new SelectList(new Dictionary<Pokemon.TamingType, string> {
+            { Pokemon.TamingType.PASSIVE, "Passive" },
+            { Pokemon.TamingType.KO_BERRIES, "KO Berry" },
+            { Pokemon.TamingType.KO_MEAT, "KO Meat" },
+            { Pokemon.TamingType.TERMINAL_PURCHASE, "Terminal Purchase" }
+        },"Key", "Value");
 
-        public List<string> PokeImages { get; set; }
+        public List<PokemonImage> PokeImages { get; set; }
     }
 }

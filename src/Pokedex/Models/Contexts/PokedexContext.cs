@@ -16,6 +16,7 @@ namespace Pokedex.Models.Contexts
         public DbSet<PokemonImage> PokemonImages { get; set; }
         public DbSet<Pokemon> Pokemon { get; set; }
         public DbSet<PokemonAttack> PokemonAttack { get; set; }
+        public DbSet<PokemonHabitat> PokemonHabitat { get; set; }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySql(_connectionString);
     }

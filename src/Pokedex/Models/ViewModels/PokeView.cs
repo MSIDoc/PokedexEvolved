@@ -19,5 +19,7 @@ namespace Pokedex.Models.ViewModels
 
         public List<Pokemon> PokemonList { get; set; }
 
+        public List<PokemonImage> PokeImages { get; set; }
+
     }
 }

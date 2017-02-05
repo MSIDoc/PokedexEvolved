@@ -5,9 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-
 <div class="container">
     <div class="row">
         <div class="col-lg-2"></div>
@@ -17,7 +14,7 @@
 
                     <h2 align="center">Create</h2>  
 
-                    <form asp-action="Create" class="form" role="form" align="center">
+                    <form asp-action="Create" class="form" role="form" align="center" enctype="multipart/form-data">
                         <div class="form-horizontal">
                             <h4>Pokemon</h4>
                             <hr />
@@ -103,7 +100,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Poke Images:</label>
                                 <div class="col-md-10">
-                                    <input type="file" asp-for="PokeImages" multiple />
+                                    <input type="file" name="files" id="files" multiple />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -117,7 +114,6 @@
                     <div>
                         <a class="btn btn-danger" asp-action="Index">Back to List</a>
                     </div>
-
 
                 </div>
             </div>

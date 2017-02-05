@@ -1,58 +1,75 @@
 @model IEnumerable<Pokedex.Models.Entities.Pokemon>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "View All Pokemon";
 }
+
 <div class="container-fluid">
-    <div class="list-container">
-        <h2>Pokelist</h2>
+    <div class="list-container">       
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Pokelist</h2>
+            </div>
+            <div class="col-md-6 pull-right">
+
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <p>
             <a class="btn btn-success btn-lg" asp-action="Create">Create New</a>
         </p>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PokedexNumber)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BaseAttack)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BaseDefense)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BaseHitpoints)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BaseSpecialAttack)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BaseSpecialDefense)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BaseSpeed)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IsInMod)
-                    </th>
-                    
-                  
-                    <th>
-                        @Html.DisplayNameFor(model => model.tamingType)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                   
+        
+        @if (Model.Count() > 0)
+        {
 
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PokedexNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BaseAttack)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BaseDefense)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BaseHitpoints)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BaseSpecialAttack)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BaseSpecialDefense)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BaseSpeed)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsInMod)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.tamingType)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
                         <tr class="@(item.IsInMod ? "success" : "danger")">
                             <td>
                                 @Html.DisplayFor(modelItem => item.PokedexNumber)
@@ -78,12 +95,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.BaseSpeed)
                             </td>
-                            
                             <td>
                                 @Html.DisplayFor(modelItem => item.IsInMod)
                             </td>
-                            
-                            
                             <td>
                                 @Html.DisplayFor(modelItem => item.tamingType)
                             </td>
@@ -93,26 +107,44 @@
                                 <a asp-action="Delete" asp-route-id="@item.ID"><span class="glyphicon glyphicon-trash"></span></a>
                             </td>
                         </tr>
-                    
 
-                }
-            </tbody>
-        </table>
 
-        <div class="paging">
+                    }
+                </tbody>
+            </table>
 
-            <pager TotalPages="@ViewBag.TotalPages"></pager>
-            
+            <div class="paging">
 
-            @*<ul class="pagination">
-                @for (int i = 0; i < ViewBag.CurrentPage; i++)
-                {
-                    <li><a href="#"></a></li>
-                }
-            </ul>*@
+                @*<pager TotalPages="@ViewBag.TotalPages"></pager>*@
 
-        </div>
 
+                <ul class="pagination">
+
+                    @if (ViewBag.HasPreviousPage)
+                    {
+                        <li><a href="@Url.Action("Index", "Pokemon", new { page = ViewBag.NextPage })">Prev</a></li>
+                    }
+
+                    @for (int i = 0; i < ViewBag.TotalPages; i++)
+                    {
+                        <li><a @(ViewBag.CurrentPage == i ? @"class=active" : "") href="@Url.Action("Index", "Pokemon", new { page = i })">@(i + 1)</a></li>
+                    }
+
+                    @if (ViewBag.HasNextPage)
+                    {
+                        <li><a href="@Url.Action("Index", "Pokemon", new { page = ViewBag.NextPage })">Next</a></li>
+                    }
+                </ul>
+
+            </div>
+
+        }
+        else
+        {
+            <div class="no-pokemon-found">
+                <i class="fa fa-frown-o" aria-hidden="true"></i> Sorry, no pokemon with that name were found.
+            </div>
+        }
 
     </div>
 </div>
