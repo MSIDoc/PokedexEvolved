@@ -18,11 +18,24 @@ namespace Pokedex.Services
 
         public static async Task<bool> ProcessImages(ICollection<IFormFile> files, Pokemon pokemon, PokedexContext _context, IHostingEnvironment _environment, ModelStateDictionary m)
         {
-            _context.Pokemon.Add(pokemon);
-            await _context.SaveChangesAsync();
+
 
             if (m.IsValid)
             {
+
+                if (pokemon.ID == 0)
+                {
+                    _context.Pokemon.Add(pokemon);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    _context.Pokemon.Update(pokemon);
+                    await _context.SaveChangesAsync();
+                }
+
+
+
                 var uploadDir = Path.Combine(_environment.WebRootPath, $"images\\pokemon\\{pokemon.Name.ToLower()}");
                 foreach (var file in files)
                 {

@@ -143,8 +143,13 @@ namespace Pokedex
             {
                 try
                 {
-                    _context.Update(pokemon);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(pokemon);
+                    //await _context.SaveChangesAsync();
+
+                    if (PokemonHelper.ProcessImages(files, pokemon, _context, _environment, ModelState).Result)
+                        return RedirectToAction("Index");
+                    else
+                        throw new Exception("Issue with processing images");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -154,10 +159,12 @@ namespace Pokedex
                     }
                     else
                     {
+
+
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+               // return RedirectToAction("Index");
             }
             return View(pokemon);
         }
@@ -200,7 +207,9 @@ namespace Pokedex
             if ( poke == null ) { return NotFound(); }
 
             // return pokeview
-            var vm = new PokeView(_config) { Pokemon = poke };
+            var vm = new PokeView(_config) { Pokemon = poke, PokeImages = await _context.PokemonImages.Where(img => img.PokemonID == id).ToListAsync() };
+
+
 
             if (Request.Headers["X-Requested-With"] == "XMLHttpRquest")
                 return PartialView("/Views/Partials/PokeDetails.cshtml", vm);

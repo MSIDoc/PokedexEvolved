@@ -67,6 +67,8 @@ namespace Pokedex.Models.Entities
 
         public long TerminalCost { get; set; }
 
+        public string AdminSpawnCheat { get; set; }
+
         public enum TamingType
         {
             PASSIVE = 1,
