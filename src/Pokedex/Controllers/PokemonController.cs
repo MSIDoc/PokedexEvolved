@@ -139,12 +139,15 @@ namespace Pokedex
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+           
                 try
                 {
-                    _context.Update(pokemon);
-                    await _context.SaveChangesAsync();
+                    if (PokemonHelper.ProcessImages(files, pokemon, _context, _environment, ModelState).Result)
+                        return RedirectToAction("Index");
+                    else
+                        return View(pokemon);
+                    //_context.Update(pokemon);
+                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -157,9 +160,9 @@ namespace Pokedex
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
-            }
-            return View(pokemon);
+                
+            
+            //return View(pokemon);
         }
 
         // GET: Pokemon/Delete/5
