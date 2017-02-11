@@ -27,7 +27,9 @@ namespace Pokedex.Controllers
             var PokeList = await _PokedexContext.Pokemon.ToListAsync();
             if (PokeList.Count > 0)
             {
-                return View(new PokeView(_config) { PokemonList = PokeList, Pokemon = PokeList.First() });
+                var pokeImages = await _PokedexContext.PokemonImages.Where(img => img.PokemonID == PokeList[0].ID).ToListAsync();
+
+                return View(new PokeView(_config) { PokemonList = PokeList, Pokemon = PokeList.First(), PokeImages = pokeImages });
             }
             else
             {

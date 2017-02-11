@@ -157,6 +157,8 @@ namespace Pokedex
                     }
                     else
                     {
+
+
                         throw;
                     }
                 }
@@ -203,7 +205,9 @@ namespace Pokedex
             if ( poke == null ) { return NotFound(); }
 
             // return pokeview
-            var vm = new PokeView(_config) { Pokemon = poke };
+            var vm = new PokeView(_config) { Pokemon = poke, PokeImages = await _context.PokemonImages.Where(img => img.PokemonID == id).ToListAsync() };
+
+
 
             if (Request.Headers["X-Requested-With"] == "XMLHttpRquest")
                 return PartialView("/Views/Partials/PokeDetails.cshtml", vm);
