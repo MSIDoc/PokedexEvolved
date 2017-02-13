@@ -70,6 +70,8 @@ namespace Pokedex.Models.Entities
 
         public string AdminSpawnCheat { get; set; }
 
+        public List<Harvestables> Harvestables { get; set; }
+
         public enum TamingType
         {
             PASSIVE = 1,
