@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pokedex.Models.Entities
 {
@@ -11,6 +8,7 @@ namespace Pokedex.Models.Entities
         [Key]
         public int ID { get; set; }
 
+        [Column(TypeName = "nvarchar(75)")]
         public string Name { get; set; }
 
         public AttackButton attackButton { get; set; }

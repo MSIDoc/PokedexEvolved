@@ -20,6 +20,7 @@ namespace Pokedex
         private readonly PokedexContext _context;
         private readonly IConfigurationRoot _config;
         private readonly IHostingEnvironment _environment;
+        const int pageSize = 20;
 
         public PokemonController(PokedexContext context, IConfigurationRoot config, IHostingEnvironment host)
         {
@@ -28,10 +29,39 @@ namespace Pokedex
             _environment = host;
         }
 
+
+        public async Task<IActionResult> SearchPokemon(string keywords)
+        {
+
+
+            if (string.IsNullOrWhiteSpace(keywords))
+                return RedirectToAction("Index");
+
+            //refactor this search into a helper class
+            var pokemon = _context.Pokemon.Where(p => p.Name.ToLower().Contains(keywords)); 
+        
+            var page = 0;
+            var totalCount = pokemon.Count();
+            var totalPages = totalCount / pageSize;
+            var previousPage = page - 1;
+            var nextPage = page + 1;
+
+            ViewBag.CurrentPage = page;
+            ViewBag.HasPreviousPage = previousPage >= 0;
+            ViewBag.PreviousPage = previousPage;
+            ViewBag.HasNextPage = nextPage < totalPages;
+            ViewBag.NextPage = nextPage;
+            ViewBag.TotalPages = totalPages;
+
+             var pokemonArr = await pokemon.Skip(page * pageSize).Take(pageSize).OrderBy(p => p.PokedexNumber).ToArrayAsync();
+
+            return PartialView("/Views/Partials/Pokemon/_AdminPokemonList.cshtml", pokemonArr);
+        }
+
         // GET: Pokemon
         public async Task<IActionResult> Index(int page = 0)
         {
-            var pageSize = 20;
+            
             var totalCount = _context.Pokemon.Count();
             var totalPages = totalCount / pageSize;
             var previousPage = page - 1;
@@ -85,22 +115,6 @@ namespace Pokedex
 
         }
 
-        // POST: Pokemon/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber")] Pokemon pokemon)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(pokemon);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(pokemon);
-        //}
-
         // GET: Pokemon/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -129,9 +143,9 @@ namespace Pokedex
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
+        public IActionResult Edit(
                 int id,
-                [Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber,tamingType")] Pokemon pokemon,
+                [Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseHitpoints,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber,tamingType")] Pokemon pokemon,
                 ICollection<IFormFile> files)
         {
             if (id != pokemon.ID)
@@ -209,10 +223,10 @@ namespace Pokedex
 
 
 
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRquest")
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 return PartialView("/Views/Partials/PokeDetails.cshtml", vm);
 
-            return PartialView("/Views/Partials/PokeDetails.cshtml", vm);
+            return View("/Views/Partials/PokeDetails.cshtml", vm);
         }
 
         [HttpPost]        

@@ -1,4 +1,5 @@
 ﻿@model PokeView
+@inject Pokedex.Services.FormattingService Formatter
 
 <div class="container-fluid">
     <div class="row">
@@ -13,40 +14,40 @@
                         <div class="col-lg-2"><span class="atkLabel">HP</span></div>
                         <div class="col-lg-2"><span class="atkValue">@Model.Pokemon.BaseHitpoints</span></div>
                         <div class="col-lg-4"><span class="atkLabel">ARK HP Value</span></div>
-                        <div class="col-lg-2"><span class="atkValue">@Model.PokemonArkStats.ArkHitpoints.ToString("00.00")</span></div>
+                        <div class="col-lg-2"><span class="atkValue">@Formatter.AsTwoDecimalValue((decimal)Model.PokemonArkStats.ArkHitpoints)</span></div>
                     </div>
                     <div class="row stat-row text-center">
                         <div class="col-lg-2"><span class="atkLabel">Attack</span></div>
                         <div class="col-lg-2"><span class="atkValue">@Model.Pokemon.BaseAttack</span></div>
                         <div class="col-lg-4"><span class="atkLabel">ARK Base Attack</span></div>
-                        <div class="col-lg-2"><span class="atkValue">@Model.PokemonArkStats.ArkDamage.ToString("00.00")</span></div>
+                        <div class="col-lg-2"><span class="atkValue">@Formatter.AsTwoDecimalValue((decimal)Model.PokemonArkStats.ArkDamage)</span></div>
                     </div>
                     <div class="row stat-row text-center">
                         <div class="col-lg-2"><span class="atkLabel">Defense</span></div>
                         <div class="col-lg-2"><span class="atkValue">@Model.Pokemon.BaseDefense</span></div>
                         <div class="col-lg-4"><span class="atkLabel">ARK Base Stamina</span></div>
-                        <div class="col-lg-2"><span class="atkValue">@Model.PokemonArkStats.ArkStamina.ToString("00.00")</span></div>
+                        <div class="col-lg-2"><span class="atkValue">@Formatter.AsTwoDecimalValue((decimal)Model.PokemonArkStats.ArkStamina)</span></div>
                     </div>
 
                     <div class="row stat-row text-center">
                         <div class="col-lg-2"><span class="atkLabel">Sp. Attack</span></div>
                         <div class="col-lg-2"><span class="atkValue">@Model.Pokemon.BaseSpecialAttack</span></div>
                         <div class="col-lg-4"><span class="atkLabel">ARK Torpor</span></div>
-                        <div class="col-lg-2"><span class="atkValue">@Model.PokemonArkStats.ArkTorpor.ToString("00.00")</span></div>
+                        <div class="col-lg-2"><span class="atkValue">@Formatter.AsTwoDecimalValue((decimal)Model.PokemonArkStats.ArkTorpor)</span></div>
                     </div>
 
                     <div class="row stat-row text-center">
                         <div class="col-lg-2"><span class="atkLabel">Sp. Defense</span></div>
                         <div class="col-lg-2"><span class="atkValue">@Model.Pokemon.BaseDefense</span></div>
                         <div class="col-lg-4"><span class="atkLabel">ARK Base Weight</span></div>
-                        <div class="col-lg-2"><span class="atkValue">@Model.PokemonArkStats.ArkWeight.ToString("00.00")</span></div>
+                        <div class="col-lg-2"><span class="atkValue">@Formatter.AsTwoDecimalValue((decimal)Model.PokemonArkStats.ArkWeight)</span></div>
                     </div>
 
                     <div class="row stat-row text-center">
                         <div class="col-lg-2"><span class="atkLabel">Speed</span></div>
                         <div class="col-lg-2"><span class="atkValue">@Model.Pokemon.BaseSpeed</span></div>
                         <div class="col-lg-4"><span class="atkLabel">ARK Base Movement Speed</span></div>
-                        <div class="col-lg-2"><span class="atkValue">@Model.PokemonArkStats.ArkMovementSpeed.ToString("00.00")</span></div>
+                        <div class="col-lg-2"><span class="atkValue">@Formatter.AsTwoDecimalValue((decimal)Model.PokemonArkStats.ArkMovementSpeed)</span></div>
                     </div>
                 </div>
             </div>

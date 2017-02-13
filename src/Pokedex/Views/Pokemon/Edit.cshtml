@@ -94,20 +94,24 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Poke Images:</label>
                                 <div class="col-md-10">
-                                    <input type="file" name="files" id="files" multiple />
+                                    <input type="file" name="files" class="file-upload" id="files" multiple accept="image/jpeg, image/png, image/gif" />
                                 </div>
+
+
                             </div>
 
                             @if (Model.PokeImages.Any())
                             {
-                                <div class="pokemon-img-preview">
+
+                                <div id="img-preview" class="pokemon-img-preview">
                                     <h3>Current Images</h3>
                                     @foreach (var img in Model.PokeImages)
-                {
-                                        <img src="~/images/pokemon/@(Model.pokemon.Name.ToLower())/@(img.FileSystemName)" class="img-rounded img-fluid" />
+                                    {
+                                        <img src="~/images/pokemon/@(Model.pokemon.Name.ToLower())/@(img.FileSystemName)" width="30%" height="30%" class="img-rounded img-fluid" />
                                     }
-
+                                    
                                 </div>
+
                             }
 
                             <div class="form-group">

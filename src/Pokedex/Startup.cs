@@ -35,6 +35,8 @@ namespace Pokedex
             //Add mysql
             services.AddEntityFrameworkMySql();
 
+            services.AddTransient<FormattingService>();
+
             //Add the pokedex to the services container
             services.AddDbContext<PokedexContext>(x => x.UseMySql(Configuration.GetConnectionString("Pokedex")));
             

@@ -45,6 +45,56 @@ $(document).ready(function () {
    
 
     /* end responsive stuff*/
+
+
+    /* Begin file Upload stuff */
+        $('.file-upload').change(function (event) {
+
+            console.log(event);
+            console.log($(this));
+
+            if ($(this) !== undefined && $(this)[0].multiple && $(this)[0].files.length > 0) {
+
+                for (var i = 0; i < $(this)[0].files.length; i++) {
+
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                            
+                            //console.log(e);
+
+                            $('#img-preview').html('<img id="preview-img-' + i + '" /> ');
+
+                            $('#preview-img-' + i)
+                            .attr('src', e.target.result)
+                            .width(150)
+                            .height(200);
+                    };
+
+                   // console.log($(this)[0].files[i]);
+
+                    reader.readAsDataURL($(this)[0].files[i]);
+                }
+            }
+
+        });
     
+    /* end file upload stuff */
    
+
+        $('#admin-pokemon-search').on('keyup', function () {
+
+            
+            var keywords = $(this).val();
+            if (keywords.length > 0) {
+                var url = '/Pokemon/SearchPokemon/?keywords=' + keywords;
+                $('#pokemon-tbl').load(url);
+            } else {
+                location.href = "/Pokemon";
+            }
+
+        });
+
+
+
 });

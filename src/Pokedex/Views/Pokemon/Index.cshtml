@@ -15,7 +15,7 @@
 
                 <div class="col-lg-6">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                        <input type="text" class="form-control" id="admin-pokemon-search" placeholder="Search...">
                         <span class="input-group-btn">
                             <button class="btn btn-secondary" type="button">Go!</button>
                         </span>
@@ -28,123 +28,10 @@
             <a class="btn btn-success btn-lg" asp-action="Create">Create New</a>
         </p>
         
-        @if (Model.Count() > 0)
-        {
-
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PokedexNumber)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.BaseAttack)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.BaseDefense)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.BaseHitpoints)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.BaseSpecialAttack)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.BaseSpecialDefense)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.BaseSpeed)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IsInMod)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.tamingType)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr class="@(item.IsInMod ? "success" : "danger")">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PokedexNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BaseAttack)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BaseDefense)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BaseHitpoints)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BaseSpecialAttack)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BaseSpecialDefense)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BaseSpeed)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsInMod)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.tamingType)
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.ID"><span class="glyphicon glyphicon-edit"></span></a> |
-                                <a asp-action="Details" asp-route-id="@item.ID"><span class="glyphicon glyphicon-eye-open"></span></a> |
-                                <a asp-action="Delete" asp-route-id="@item.ID"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-
-
-                    }
-                </tbody>
-            </table>
-
-            <div class="paging">
-
-                @*<pager TotalPages="@ViewBag.TotalPages"></pager>*@
-
-
-                <ul class="pagination">
-
-                    @if (ViewBag.HasPreviousPage)
-                    {
-                        <li><a href="@Url.Action("Index", "Pokemon", new { page = ViewBag.NextPage })">Prev</a></li>
-                    }
-
-                    @for (int i = 0; i < ViewBag.TotalPages; i++)
-                    {
-                        <li><a @(ViewBag.CurrentPage == i ? @"class=active" : "") href="@Url.Action("Index", "Pokemon", new { page = i })">@(i + 1)</a></li>
-                    }
-
-                    @if (ViewBag.HasNextPage)
-                    {
-                        <li><a href="@Url.Action("Index", "Pokemon", new { page = ViewBag.NextPage })">Next</a></li>
-                    }
-                </ul>
-
-            </div>
-
-        }
-        else
-        {
-            <div class="no-pokemon-found">
-                <i class="fa fa-frown-o" aria-hidden="true"></i> Sorry, no pokemon with that name were found.
-            </div>
-        }
+        <div id="pokemon-tbl">
+            @Html.Partial("/Views/Partials/Pokemon/_AdminPokemonList.cshtml", Model)
+        </div>
+        
 
     </div>
 </div>

@@ -21,6 +21,7 @@ namespace Pokedex.Models.Entities
         public int PokedexNumber { get; set; }
 
         [Required]
+        [Column(TypeName = "nvarchar(75)")]
         public string Name { get; set; }
 
         [Required]
@@ -28,7 +29,7 @@ namespace Pokedex.Models.Entities
         public double BaseHitpoints { get; set; }
 
         [Required]
-        [Display(Name = "Base Attack")]
+        [Display(Name = "Base Attack")]        
         public double BaseAttack { get; set; }
 
         [Required]
