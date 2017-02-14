@@ -17,6 +17,8 @@ namespace Pokedex.Models.ViewModels
         
         public ArkPokemonStats PokemonArkStats { get { return new ArkPokemonStats(Pokemon, _config); } }
 
+        public Dictionary<string, bool> Harvestables { get; set; }
+
         public List<Pokemon> PokemonList { get; set; }
 
         public List<PokemonImage> PokeImages { get; set; }

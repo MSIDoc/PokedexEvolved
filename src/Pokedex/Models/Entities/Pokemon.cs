@@ -61,6 +61,8 @@ namespace Pokedex.Models.Entities
 
         public List<PokemonAttack> PokemonAttacks { get; set; }
 
+        public List<Harvestables> Harvestables { get; set; }
+
         [NotMapped]
         public string DateReleased { get; set; }     
 

@@ -17,5 +17,7 @@ namespace Pokedex.Models.ViewModels
         },"Key", "Value");
 
         public List<PokemonImage> PokeImages { get; set; }
+
+        public SelectList Harvestables { get; set; }
     }
 }
