@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Pokedex.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Pokedex
 {
@@ -97,18 +98,21 @@ namespace Pokedex
         }
 
         // GET: Pokemon/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var cpv = new CreatePokemonViewModel();
+            cpv.Harvestables = new SelectList( await _context.Harvestables.ToListAsync(), "ID", "Name");
             return View(cpv);
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber,tamingType")] Pokemon pokemon, 
-                                               ICollection<IFormFile> files)
+        //public IActionResult Create([Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber,tamingType")] Pokemon pokemon, 
+        //                                       ICollection<IFormFile> files,
+        //                                       [FromBody] int Harvestables)
+        public IActionResult Create(CreatePokemonViewModel createPokemonViewModel, ICollection<IFormFile> files)
         {
 
-            if (PokemonHelper.ProcessImages(files, pokemon, _context, _environment, ModelState).Result)
+            if (PokemonHelper.ProcessImages(files, createPokemonViewModel.pokemon, _context, _environment, ModelState).Result)
                 return RedirectToAction("Index");
             else 
                 return View();
