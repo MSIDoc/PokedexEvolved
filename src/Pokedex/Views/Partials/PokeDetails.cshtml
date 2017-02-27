@@ -54,7 +54,7 @@
 
             <div class="meta-panel">
                 <div class="row stat-row">
-                    <div class="tame-type-label col-lg-2">Taming type:</div><div class="tame-type-value col-lg-2">Herbivore</div>
+                    <div class="tame-type-label col-lg-2">Taming type:</div><div class="tame-type-value col-lg-8">@Model.Pokemon.TamingMethod</div>
                 </div>
 
                 @if (Model.Pokemon.PokemonAttacks != null)
@@ -85,7 +85,7 @@
                         <ol class="carousel-indicators">
                             @for (int i = 0; i < Model.PokeImages.Count; i++)
                             {
-                                <li data-target="#carousel-example-generic" data-slide-to="@(i)" @(i == 0 ? "class='active'" : "") class="active"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="@(i)" class="@(i == 0 ? " active" : "")"></li>
                             }
                         </ol>
 
@@ -97,7 +97,7 @@
                                 <div class="item@(i == 0 ? " active" : "")">
                                     <img src="~/images/pokemon/@(Model.PokeImages[i].Pokemon.Name.ToLower())/@(Model.PokeImages[i].FileSystemName)">
                                     <div class="carousel-caption">
-                                        Flareon in the fild
+                                        Flareon in the wild
                                     </div>
                                 </div>
                             }
@@ -147,30 +147,14 @@
                             <th>Resource</th>
                             <th>Can Gather</th>
 
-                            @foreach (var item in Model.Harvestables)
+                            @foreach (var item in Model.Pokemon.Harvestables)
                             {
                                 <tr>
-                                    <td>@item.Key</td>
-                                    <td>@item.Value</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.IsHarvestable.ToYesNoString()</td>
                                 </tr>
                             }
 
-                            @*<tr>
-                                <td>Berries</td>
-                                <td>Yes</td>
-                            </tr>
-                            <tr>
-                                <td>Stone</td>
-                                <td>No</td>
-                            </tr>
-                            <tr>
-                                <td>Fiber</td>
-                                <td>No</td>
-                            </tr>
-                            <tr>
-                                <td>Wood/Thatch</td>
-                                <td>Yes</td>
-                            </tr>*@
                         </table>
                     </div>
                 </div>

@@ -38,9 +38,8 @@ $(document).ready(function () {
 
     $(window).on('resize', function () {
         if (findBootstrapEnvironment() !== 'lg') {
-
+            setPokelistHeight();
         }
-        setPokelistHeight();
     });
    
 
@@ -92,6 +91,22 @@ $(document).ready(function () {
             } else {
                 location.href = "/Pokemon";
             }
+
+        });
+
+
+        $('#filter-active-only').on('change', function () {
+
+            if ($(this).is(':checked')) {
+                
+                //var url = '/Pokemon/InModOnly/?inmod="' + $(this).is(':checked') + '"';
+                var url = '/Pokemon/InModOnly/' + $(this).is(':checked');
+                console.log(url);
+                $('#pokemon-tbl').load(url);
+            } else {
+                location.href = "/Pokemon";
+            }
+
 
         });
 

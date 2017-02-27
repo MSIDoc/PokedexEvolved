@@ -1,10 +1,10 @@
-﻿@model Pokedex.Models.ViewModels.PokeView
+﻿@model PokeView
 
 
 @foreach (var item in Model.PokemonList)
 {
     <a href="@Url.Link("/Pokemon/View", item.Name)" data-dex-id="@item.PokedexNumber" class="list-group-item list-group-item-action pokemon">
-        <span class="pokemon-listing">@( $"{item.PokedexNumber}. {item.Name}" )</span>
+        <span class="pokemon-listing"><span class='poke-num'>@(item.PokedexNumber).</span><span class='poke-name'> @(item.Name )</span></span>
         @if (item.IsInMod)
         {
             <span class="check-mark green"><span class="glyphicon glyphicon-check pull-right"></span></span>

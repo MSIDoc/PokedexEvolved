@@ -12,7 +12,7 @@ namespace Pokedex.Models.Contexts
         {
             _connectionString = builder.GetConnectionString("Pokedex");
         }
-
+        
         public DbSet<Harvestables> Harvestables { get; set; }
         public DbSet<PokemonImage> PokemonImages { get; set; }
         public DbSet<Pokemon> Pokemon { get; set; }

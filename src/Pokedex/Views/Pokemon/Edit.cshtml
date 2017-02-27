@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <div class="container">
@@ -12,7 +12,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
 
-                    <h2>Edit</h2>
+                    <h2 align="center">Edit</h2>
 
                     <form asp-action="Edit" role="form" align="center" enctype="multipart/form-data">
                         <div class="form-horizontal">
@@ -76,10 +76,34 @@
                                     <span asp-validation-for="pokemon.BaseSpeed" class="text-danger" />
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                @*<label asp-for="pokemon.Harvestables" class="col-md-4 control-label"></label>*@
+                                <div class="col-md-offset-2 col-md-8">
+                                    <fieldset>
+                                        <legend>Harvestable Items</legend>
+                                        @for (var i = 0; i < Model.pokemon.Harvestables.Count(); i++)
+                                        {
+                                            var harvestable = Model.pokemon.Harvestables[i];
+                                            <input type="hidden" asp-for="pokemon.Harvestables[i].ID" style="display:none;" />
+                                            <input type="hidden" asp-for="pokemon.Harvestables[i].Name" style="display:none;" />
+                                            <div class="checkbox">
+                                                @*@Html.LabelFor(model => model.pokemon.Harvestables[i].Name, harvestable.Name)*@
+                                                <label>
+                                                    @Html.CheckBoxFor(model => model.pokemon.Harvestables[i].IsHarvestable)
+                                                    @(Model.pokemon.Harvestables[i].Name)
+                                                </label>
+                                            </div>
+                                        }
+
+                                    </fieldset>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label asp-for="pokemon.Description" class="col-md-4 control-label"></label>
                                 <div class="col-md-8">
-                                    <input asp-for="pokemon.Description" class="form-control" />
+                                    <textarea asp-for="pokemon.Description" class="form-control" ></textarea>
                                     <span asp-validation-for="pokemon.Description" class="text-danger" />
                                 </div>
                             </div>
@@ -96,8 +120,6 @@
                                 <div class="col-md-8">
                                     <input type="file" name="files" class="file-upload" id="files" multiple accept="image/jpeg, image/png, image/gif" />
                                 </div>
-
-
                             </div>
 
                             @if (Model.PokeImages.Any())
@@ -109,7 +131,7 @@
                                     {
                                         <img src="~/images/pokemon/@(Model.pokemon.Name.ToLower())/@(img.FileSystemName)" width="30%" height="30%" class="img-rounded img-fluid" />
                                     }
-                                    
+
                                 </div>
 
                             }
@@ -124,14 +146,13 @@
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-8">
                                     <input type="submit" value="Save" class="btn btn-default" />
+                                    <a class="btn btn-danger" asp-action="Index">Back to List</a>
                                 </div>
                             </div>
                         </div>
                     </form>
 
-                    <div>
-                        <a class="btn btn-danger" asp-action="Index">Back to List</a>
-                    </div>
+                
                 </div>
             </div>
         </div>

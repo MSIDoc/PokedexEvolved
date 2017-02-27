@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +9,7 @@ using Pokedex.Models.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using System.IO;
 using Pokedex.Services;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Pokedex
 {
@@ -100,8 +97,18 @@ namespace Pokedex
         // GET: Pokemon/Create
         public async Task<IActionResult> Create()
         {
-            var cpv = new CreatePokemonViewModel();
-            cpv.Harvestables = new SelectList( await _context.Harvestables.ToListAsync(), "ID", "Name");
+            var cpv = new CreatePokemonViewModel() { pokemon = new Pokemon() };
+
+             cpv.pokemon.Harvestables = await _context
+                                            .Harvestables
+                                            .Select(h => new HarvestItem()
+                                            {
+                                                IsHarvestable = false,
+                                                Name = h.Name
+                                            }).ToListAsync();
+
+            
+
             return View(cpv);
         }
 
@@ -111,7 +118,7 @@ namespace Pokedex
         //                                       [FromBody] int Harvestables)
         public IActionResult Create(CreatePokemonViewModel createPokemonViewModel, ICollection<IFormFile> files)
         {
-
+            
             if (PokemonHelper.ProcessImages(files, createPokemonViewModel.pokemon, _context, _environment, ModelState).Result)
                 return RedirectToAction("Index");
             else 
@@ -122,23 +129,26 @@ namespace Pokedex
         // GET: Pokemon/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            // invalid post, couldn't find 
+            if (id == null) return NotFound();            
 
-            var pokemon = await _context.Pokemon.SingleOrDefaultAsync(m => m.ID == id);
-            if (pokemon == null)
-            {
-                return NotFound();
-            }
+            //get pokemon
+            var pokemon = await _context.Pokemon.Include(p => p.Harvestables).SingleOrDefaultAsync(m => m.ID == id);
 
+            //not found pokemon
+            if (pokemon == null) return NotFound();
+            
+            //create view model
             var cpvm = new CreatePokemonViewModel()
             {
                  pokemon = pokemon,
-                 PokeImages = await _context.PokemonImages.Where(p => p.PokemonID == id)
-                .ToListAsync()
+                 PokeImages = await _context.PokemonImages.Where(p => p.PokemonID == id).ToListAsync()                 
             };
+
+            //prevent null reference...TODO check if there is a better way to write this null check
+            if (pokemon.Harvestables == null || pokemon.Harvestables.Count == 0)
+                pokemon.Harvestables = await _context.Harvestables.Select(h => new HarvestItem { IsHarvestable = false, Name = h.Name }).ToListAsync();
+
             return View(cpvm);
         }
 
@@ -149,7 +159,7 @@ namespace Pokedex
         [ValidateAntiForgeryToken]
         public IActionResult Edit(
                 int id,
-                [Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseHitpoints,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber,tamingType")] Pokemon pokemon,
+                [Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseHitpoints,BaseSpecialDefense,BaseSpeed,Harvestables,Description,IsInMod,Name,PokedexNumber,tamingType")] Pokemon pokemon,
                 ICollection<IFormFile> files)
         {
             if (id != pokemon.ID)
@@ -185,6 +195,7 @@ namespace Pokedex
             //return View(pokemon);
         }
 
+
         // GET: Pokemon/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -217,7 +228,7 @@ namespace Pokedex
         public async Task<IActionResult> Get(int id)
         {
             //find by the dex number
-            var poke  = await _context.Pokemon.Where(pokemon => pokemon.PokedexNumber == id).FirstOrDefaultAsync();
+            var poke  = await _context.Pokemon.Where(pokemon => pokemon.PokedexNumber == id).Include(p => p.Harvestables).FirstOrDefaultAsync();
 
             // couldn't find it
             if ( poke == null ) { return NotFound(); }
@@ -243,6 +254,28 @@ namespace Pokedex
             return PartialView("/Views/Pokemon/Index.cshtml", FilteredPokemon);
         }
 
+        
+        public async Task<IActionResult> InModOnly(bool inmod)
+        {
+            var page = 0;
+
+            var filteredPokemon = await _context.Pokemon.Skip(page * pageSize).Take(pageSize).Where(p => p.IsInMod).ToListAsync();
+
+            var totalCount = filteredPokemon.Count();
+            var totalPages = totalCount / pageSize;
+            var previousPage = page - 1;
+            var nextPage = page + 1;
+
+            ViewBag.CurrentPage = page;
+            ViewBag.HasPreviousPage = previousPage >= 0;
+            ViewBag.PreviousPage = previousPage;
+            ViewBag.HasNextPage = nextPage < totalPages;
+            ViewBag.NextPage = nextPage;
+            ViewBag.TotalPages = totalPages;
+
+            return PartialView("/Views/Partials/Pokemon/_AdminPokemonList.cshtml", filteredPokemon);
+        }
+        
         private bool PokemonExists(int id)
         {
             return _context.Pokemon.Any(e => e.ID == id);

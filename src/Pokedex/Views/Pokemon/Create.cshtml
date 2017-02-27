@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container">
@@ -12,7 +11,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
 
-                    <h2 align="center">Create</h2>  
+                    <h2 align="center">Create</h2>
 
                     <form asp-action="Create" class="form" role="form" align="center" enctype="multipart/form-data">
                         <div class="form-horizontal">
@@ -76,17 +75,36 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Harvestables" class="col-md-4 control-label"></label>
-                                <div class="col-md-8">        
-                                    <select asp-for="pokemon.Harvestables" asp-items="Model.Harvestables" multiple="multiple" class="form-control"></select>
+                                @*<label asp-for="pokemon.Harvestables" class="col-md-4 control-label"></label>*@
+                                <div class="col-md-offset-2 col-md-8">
+                                    <fieldset>
+                                        <legend>Harvestable Items</legend>
+                                        @for (var i = 0; i < Model.pokemon.Harvestables.Count(); i++)
+                                        {
+                                            var harvestable = Model.pokemon.Harvestables[i];
+                                            <input type="hidden" asp-for="pokemon.Harvestables[i].ID" />
+                                            <input type="hidden" asp-for="pokemon.Harvestables[i].Name" />
+                                                <div class="checkbox">
+                                                    @*@Html.LabelFor(model => model.pokemon.Harvestables[i].Name, harvestable.Name)*@
+                                                    <label>
+                                                        @Html.CheckBoxFor(model => model.pokemon.Harvestables[i].IsHarvestable)
+                                                        @(Model.pokemon.Harvestables[i].Name)
+                                                    </label>
+                                                </div>
+                                        }
+
+                                    </fieldset>
                                 </div>
                             </div>
+
+
+
 
 
                             <div class="form-group">
                                 <label asp-for="pokemon.Description" class="col-md-4 control-label"></label>
                                 <div class="col-md-8">
-                                    <input asp-for="pokemon.Description" class="form-control" />
+                                    <textarea asp-for="pokemon.Description" rows="7" class="form-control" ></textarea>
                                     <span asp-validation-for="pokemon.Description" class="text-danger" />
                                 </div>
                             </div>
@@ -96,6 +114,13 @@
                                         <input asp-for="pokemon.IsInMod" />
                                         <label asp-for="pokemon.IsInMod"></label>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4 control-label"><label asp-for="pokemon.AdminSpawnCheat"></label></div>
+                                <div class="col-md-8">
+                                    <input asp-for="pokemon.AdminSpawnCheat" />
+                                    <span class="text-danger" asp-validation-for="pokemon.AdminSpawnCheat"></span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -114,14 +139,13 @@
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-8">
                                     <input type="submit" value="Create" class="btn btn-default" />
+                                    <a class="btn btn-danger" asp-action="Index">Back to List</a>
                                 </div>
                             </div>
                         </div>
                     </form>
 
-                    <div>
-                        <a class="btn btn-danger" asp-action="Index">Back to List</a>
-                    </div>
+              
 
                 </div>
             </div>

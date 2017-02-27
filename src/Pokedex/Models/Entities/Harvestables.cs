@@ -13,5 +13,7 @@ namespace Pokedex.Models.Entities
         [Column(TypeName = "varchar(30)")]            
         public string Name { get; set; }
 
+        
+
     }
 }

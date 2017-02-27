@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Pokedex.Models.Contexts;
 using Pokedex.Models.Entities;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -21,9 +22,15 @@ namespace Pokedex.Services
             {
 
                 if (pokemon.ID == 0)
+                {
+                    List<HarvestItem> h = pokemon.Harvestables.Where(harvestable => harvestable.IsHarvestable).ToList();
                     _context.Pokemon.Add(pokemon);
+                }                    
                 else
+                {
                     _context.Pokemon.Update(pokemon);
+                }
+                    
                     
                 
                 await _context.SaveChangesAsync();

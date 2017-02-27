@@ -5,38 +5,35 @@
 }
 
 <div class="container-fluid">
-    <div class="list-container">       
+    <div class="list-container">
 
         <div class="row">
-            <div class="col-md-6">
-                <h2>Pokelist</h2>
-            </div>
-            <div class="col-md-6 pull-right">
 
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="admin-pokemon-search" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button">Go!</button>
-                        </span>
+            @*<div class="col-md-12">*@
+
+                <div class="col-md-3 col-lg-3">
+                    <input type="checkbox" id="filter-active-only" /><label for="filter-active-only">Active Only</label> 
+                </div>
+
+                <div class="col-md-6 col-lg-6">
+                    
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control input-lg" id="admin-pokemon-search" placeholder="Search...">
+
                     </div>
                 </div>
-            </div>
+                <div class="col-md-3 col-lg-3 pull-right">
+                    <a class="btn btn-success btn-lg" asp-action="Create">Create New</a>
+
+                </div>
+            @*</div>*@
 
         </div>
-        <p>
-            <a class="btn btn-success btn-lg" asp-action="Create">Create New</a>
-        </p>
-        
+
         <div id="pokemon-tbl">
             @Html.Partial("/Views/Partials/Pokemon/_AdminPokemonList.cshtml", Model)
         </div>
-        
+
 
     </div>
 </div>
-
-
-
-
-

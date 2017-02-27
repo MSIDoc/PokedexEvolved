@@ -6,8 +6,10 @@ namespace Pokedex.Models.Entities
     {
         [Key]
         public int ID { get; set; }
+
         [Required]
         public string ImageName { get; set; }
+
         [Required]
         public string FileSystemName { get; set; }
 
@@ -16,6 +18,7 @@ namespace Pokedex.Models.Entities
         public virtual Pokemon Pokemon { get; set; }
 
         public string Caption { get; set; }
+
         public bool Active { get; set; }
 
     }

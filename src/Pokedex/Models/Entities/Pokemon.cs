@@ -60,8 +60,25 @@ namespace Pokedex.Models.Entities
         public TamingType tamingType { get; set; }
 
         public List<PokemonAttack> PokemonAttacks { get; set; }
+        
+        public List<HarvestItem> Harvestables { get; set; }
 
-        public List<Harvestables> Harvestables { get; set; }
+        [NotMapped]
+        public string TamingMethod {
+            get
+            {
+                switch (tamingType)
+                {
+                    case (TamingType.KO_BERRIES): { return "Knockout, and give berries"; }
+                    case (TamingType.KO_MEAT): { return "Knockout, and give meat"; }
+                    case (TamingType.PASSIVE): { return "Put food in last slot and feed"; }
+                    case (TamingType.TERMINAL_PURCHASE): { return "Can be purchases from the terminal"; }
+                }
+
+
+                return string.Empty;
+            }
+        }
 
         [NotMapped]
         public string DateReleased { get; set; }     
@@ -70,9 +87,7 @@ namespace Pokedex.Models.Entities
 
         public long TerminalCost { get; set; }
 
-        public string AdminSpawnCheat { get; set; }
-
-        public List<Harvestables> Harvestables { get; set; }
+        public string AdminSpawnCheat { get; set; }        
 
         public enum TamingType
         {

@@ -151,8 +151,8 @@ textarea {
 
 body, html {
     height: 100%;
-    background-repeat: no-repeat;
-    background-image: url('/images/pokemon.jpg'); /*linear-gradient(rgb(255, 230, 209), rgb(146, 164, 133));*/
+    background-repeat: repeat;
+    background-image: url('/images/stardust.png'); /*linear-gradient(rgb(255, 230, 209), rgb(146, 164, 133));*/
 }
 
 #pokemon-list {
@@ -210,6 +210,12 @@ body, html {
     background-color:antiquewhite;
     padding:20px;
     border-radius:15px;
+    opacity:.96;
+}
+
+#admin-pokemon-search {
+    border-radius:10px;
+    text-align:right;
 }
 
 /* Hide/rearrange for smaller screens */
