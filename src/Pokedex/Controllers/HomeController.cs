@@ -24,18 +24,21 @@ namespace Pokedex.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var PokeList = await _PokedexContext.Pokemon.ToListAsync();
+            var PokeList = await _PokedexContext.Pokemon.Include(p => p.Harvestables).ToListAsync();
+
+            PokeView pv;
+
             if (PokeList.Count > 0)
             {
-                var pokeImages = await _PokedexContext.PokemonImages.Where(img => img.PokemonID == PokeList[0].ID).ToListAsync();
-
-                return View(new PokeView(_config) { PokemonList = PokeList, Pokemon = PokeList.First(), PokeImages = pokeImages });
+                var pokeImages = await _PokedexContext.PokemonImages.Where(img => img.PokemonID == PokeList.First().ID).ToListAsync();
+                pv = new PokeView(_config) { PokemonList = PokeList, Pokemon = PokeList.First(), PokeImages = pokeImages };                
             }
             else
             {
-                return View(new PokeView(_config) { PokemonList = PokeList, Pokemon = null });
+                pv = new PokeView(_config) { PokemonList = PokeList, Pokemon = null };
             }
-            
+
+            return View(pv);
         }
 
         public IActionResult About()

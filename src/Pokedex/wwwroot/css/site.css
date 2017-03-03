@@ -185,6 +185,13 @@ body, html {
     box-shadow: 5px, 5px, 5px, 5px, inset;
 }
 
+.front {
+    background-color:white;
+}
+
+.poke-details {
+    background-color:#222222;
+}
 /*body {
   padding-top: 50px;
 }*/
@@ -217,6 +224,28 @@ body, html {
     border-radius:10px;
     text-align:right;
 }
+
+.dont-break-out {
+
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+}
+
+.admin-small-label { color:white; font-size:75%; }
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

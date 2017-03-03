@@ -47,6 +47,26 @@
 
 <div id="pokemon-content" class="col-lg-9 visible-lg">
 
-    @Html.Partial("/Views/Partials/PokeDetails.cshtml", Model)
+    <div id="card">
+        <div class="front row">
+           <div class="col-md-12 text-center">
+               <h3>test home page content</h3>
+               <div class="col-md-12">
+                   <p>
+                       sample content goes here
+                   </p>
+               </div>
+           </div>
+               
+            
+        </div>
+
+        <div class="back">
+            <div id="poke-details">
+                @Html.Partial("/Views/Partials/PokeDetails.cshtml", Model)
+
+            </div>
+        </div>
+    </div>
 
 </div>

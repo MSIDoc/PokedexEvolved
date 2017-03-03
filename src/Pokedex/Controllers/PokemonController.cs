@@ -228,10 +228,14 @@ namespace Pokedex
         public async Task<IActionResult> Get(int id)
         {
             //find by the dex number
-            var poke  = await _context.Pokemon.Where(pokemon => pokemon.PokedexNumber == id).Include(p => p.Harvestables).FirstOrDefaultAsync();
+            var poke  = await _context.Pokemon.Include(p => p.Harvestables).Where(pokemon => pokemon.PokedexNumber == id).Include(p => p.Harvestables).FirstOrDefaultAsync();
 
             // couldn't find it
             if ( poke == null ) { return NotFound(); }
+
+            //can't find harvestables, populate defaults with No
+            if (poke.Harvestables == null)
+                poke.Harvestables = await _context.Harvestables.Select(h => new HarvestItem() { IsHarvestable = false, Name = h.Name }).ToListAsync();
 
             // return pokeview
             var vm = new PokeView(_config) { Pokemon = poke, PokeImages = await _context.PokemonImages.Where(img => img.PokemonID == id).ToListAsync() };
