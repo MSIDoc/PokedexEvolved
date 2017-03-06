@@ -234,7 +234,7 @@ namespace Pokedex
             if ( poke == null ) { return NotFound(); }
 
             //can't find harvestables, populate defaults with No
-            if (poke.Harvestables == null)
+            if (poke.Harvestables == null || poke.Harvestables.Count == 0)
                 poke.Harvestables = await _context.Harvestables.Select(h => new HarvestItem() { IsHarvestable = false, Name = h.Name }).ToListAsync();
 
             // return pokeview

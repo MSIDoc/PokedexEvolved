@@ -62,6 +62,7 @@ textarea {
 	background-color: #222222; 
 	height:100%;
 	padding-bottom: 3em;
+    padding:10px;
 }
 
 /* Search Box */
@@ -134,14 +135,12 @@ textarea {
 
 
 .carousel img {
-    min-width: 100%;
-    width:100%;
-    min-height:100%;
+    max-height: 368px;
+    max-width: 654px;
 }
 
 .carousel-inner{
-  width:100%;
- 
+  width:100%; 
 }
 
 .jumbotron { background-size: cover; }
@@ -156,14 +155,6 @@ body, html {
 }
 
 #pokemon-list {
-	/*margin-top: 20px;
-	border-radius: 6px;
-    overflow-y:scroll;
-    max-height:100%;
-    max-width:100%;
-    width:auto;
-    height:auto;
-    box-sizing:border-box;*/
 
     box-sizing:border-box;
     margin-top: 20px;
@@ -185,8 +176,21 @@ body, html {
     box-shadow: 5px, 5px, 5px, 5px, inset;
 }
 
-.front {
-    background-color:white;
+.front{
+    padding:3px;
+    background-color:black;
+    border-radius:10px;
+}
+
+.back {
+    padding:3px;
+    background-color:black;
+    border-radius:10px;
+}
+
+.card {
+    margin: 3px;
+
 }
 
 .poke-details {
@@ -246,6 +250,21 @@ body, html {
 }
 
 .admin-small-label { color:white; font-size:75%; }
+
+#card {
+    width:100%;
+    height:100%;
+    max-height:100%;
+}
+
+.row-no-margin {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.search-header {
+    color:#fff;
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

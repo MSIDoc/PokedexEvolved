@@ -1,7 +1,7 @@
 ﻿// Write your Javascript code.
 
 function setPokelistHeight() {
-    var realHeight = $('#body-content-menu').height() - 180;
+    var realHeight = $('#body-content-menu').height() - 170;
     $('#pokemon-list').css('max-height', realHeight + 'px');
 }
 
@@ -27,10 +27,32 @@ $(document).ready(function () {
     //partial rendering for pokemon content
     $('#pokemon-list a').on("click", function () {
         var PokedexID = $(this).data('dex-id');
-       
+        var card = $('#card');
+        var side = $(card).data('current-side');
         var url = '/Pokemon/Get/' + PokedexID;
-        $('#pokemon-content').load(url);
+        var flip = $("#card").data("flip-model");
 
+        // e.g. to see currect flip state
+        debugger;
+
+
+        //if a flip has already occurred    
+        if ( side === 'front' ) {
+
+            //load back and flip
+            $(card).find('.back').load(url);
+            $(card).data('current-side','back');
+        }
+        else { //else
+
+            //load front and flip
+            $(card).find('.front').load(url);
+            $(card).data('current-side', 'front');
+           // $('#pokemon-content').load(url);
+        }
+        
+        $(card).flip('toggle');
+        
     });
 
     /* responsive stuff*/
@@ -111,7 +133,9 @@ $(document).ready(function () {
         });
 
 
-        $('#card').flip();
+        $('#card').flip({
+             trigger: "manual"
+        });
 
 
 });
