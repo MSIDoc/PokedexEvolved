@@ -1,10 +1,13 @@
 ﻿using Pokedex.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace Pokedex.Models.Contexts
 {
-    public class PokedexContext : DbContext
+    public class PokedexContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         private readonly string _connectionString;
 
@@ -18,6 +21,9 @@ namespace Pokedex.Models.Contexts
         public DbSet<Pokemon> Pokemon { get; set; }
         public DbSet<PokemonAttack> PokemonAttack { get; set; }
         public DbSet<PokemonHabitat> PokemonHabitat { get; set; }
+        public DbSet<HomeContent> HomePageContent { get; set; }
+
+   
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySql(_connectionString);
     }

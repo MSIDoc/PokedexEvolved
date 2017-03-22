@@ -1,6 +1,4 @@
-﻿// Write your Javascript code.
-
-function setPokelistHeight() {
+﻿function setPokelistHeight() {
     var realHeight = $('#body-content-menu').height() - 170;
     $('#pokemon-list').css('max-height', realHeight + 'px');
 }
@@ -23,35 +21,48 @@ function findBootstrapEnvironment() {
     }
 }
 
+function loadPokemonDetails(url)
+{
+    var side = $(card).data('current-side');
+
+    //if a flip has already occurred    
+    if (side === 'front')
+    {
+        //load back and flip
+        $(card).find('.back').load(url);
+        $(card).data('current-side', 'back');
+    }
+    else  
+    { 
+        $(card).find('.front').load(url);
+        $(card).data('current-side', 'front');
+    }
+    $(card).flip('toggle');
+}
+
+function SAP(p, kw, a)
+{
+    var url = '/Pokemon/Search/?keywords=' + encodeURIComponent(keywords) + '&page=' + encodeURIComponent(p) + '&inmodonly=' + a;
+
+    
+}
+
 $(document).ready(function () {
+    
+
     //partial rendering for pokemon content
     $('#pokemon-list a').on("click", function () {
         var PokedexID = $(this).data('dex-id');
         var card = $('#card');
-        var side = $(card).data('current-side');
+        
         var url = '/Pokemon/Get/' + PokedexID;
-        var flip = $("#card").data("flip-model");
+        //var flip = $("#card").data("flip-model");
 
         // e.g. to see currect flip state
-        debugger;
+        // debugger;
 
-
-        //if a flip has already occurred    
-        if ( side === 'front' ) {
-
-            //load back and flip
-            $(card).find('.back').load(url);
-            $(card).data('current-side','back');
-        }
-        else { //else
-
-            //load front and flip
-            $(card).find('.front').load(url);
-            $(card).data('current-side', 'front');
-           // $('#pokemon-content').load(url);
-        }
-        
-        $(card).flip('toggle');
+        loadPokemonDetails(url);
+        $('#pokemon-tbl').load(url);
         
     });
 
@@ -64,9 +75,7 @@ $(document).ready(function () {
         }
     });
    
-
     /* end responsive stuff*/
-
 
     /* Begin file Upload stuff */
         $('.file-upload').change(function (event) {
@@ -82,8 +91,6 @@ $(document).ready(function () {
 
                     reader.onload = function (e) {
                             
-                            //console.log(e);
-
                             $('#img-preview').html('<img id="preview-img-' + i + '" /> ');
 
                             $('#preview-img-' + i)
@@ -91,51 +98,95 @@ $(document).ready(function () {
                             .width(150)
                             .height(200);
                     };
-
-                   // console.log($(this)[0].files[i]);
-
+                    
                     reader.readAsDataURL($(this)[0].files[i]);
                 }
             }
-
         });
     
     /* end file upload stuff */
    
-
         $('#admin-pokemon-search').on('keyup', function () {
+                        
+            var kw = $(this).val();
+            var p = 0;
+            var a = $('#filter-active-only').is(':checked');
 
+            SAP(p, kw, a);
+            //if (keywords.length > 0)
+            //{
+            //    var url = '/Pokemon/SearchPokemon/?keywords=' + keywords;
+            //    $('#pokemon-tbl').load(url);
+            //} else 
+            //    location.href = "/Pokemon";
             
-            var keywords = $(this).val();
-            if (keywords.length > 0) {
-                var url = '/Pokemon/SearchPokemon/?keywords=' + keywords;
-                $('#pokemon-tbl').load(url);
-            } else {
-                location.href = "/Pokemon";
-            }
-
         });
-
-
+    
         $('#filter-active-only').on('change', function () {
 
-            if ($(this).is(':checked')) {
-                
-                //var url = '/Pokemon/InModOnly/?inmod="' + $(this).is(':checked') + '"';
-                var url = '/Pokemon/InModOnly/' + $(this).is(':checked');
-                console.log(url);
-                $('#pokemon-tbl').load(url);
-            } else {
-                location.href = "/Pokemon";
-            }
-
-
+            var kw = $(this).val();
+            var p = 0;
+            var a = $('#filter-active-only').is(':checked');
+            //if ($(this).is(':checked'))
+            //{                
+            //    var url = '/Pokemon/SearchAll/?inmod=' + $(this).is(':checked');
+            //    console.log(url);
+            //    $('#pokemon-tbl').load(url);
+            //}
+            //else
+            //    location.href = "/Pokemon";
+                        
         });
-
-
+    
         $('#card').flip({
              trigger: "manual"
         });
 
+        $('#poke-search-btn').on('click', function () {
 
+            var pokesearch = $("#pokemon-search");
+            var keywords = $(pokesearch).val();
+            var url = '';
+
+            //allow for filter by pokemon number if they know it
+            if ($.isNumeric(keywords))
+            {
+                //this calls a method to figure out which side of the card is active, and load the details
+                url = '/Pokemon/Get/' + PokedexID;
+
+                if (url.length > 0)
+                    loadPokemonDetails(url);
+            }
+            else //searching for pokemon by name
+            {                
+                if (keywords.length > 0)                
+                    url = '/Pokemon/Search/?keywords=' + keywords; 
+                else
+                    location.href = "/Pokemon";
+            }
+        });
+
+        $('#pokemon-search').on('keyup', function () {
+            
+            var keywords = $(this).val();
+            
+                
+                $('#pokemon-list').load(url);
+            
+            //else            
+                //location.href = "/Home";           
+
+        });
+
+
+        $('li.active').on('click', function (e) {
+
+            var kw = $('#pokemon-search').val();
+            var a = $('#filter-active-only').is(':checked');
+            var p = $(this).html();
+
+            SAP(p, kw, a);
+            debugger;
+
+        });
 });

@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 using Pokedex.Models.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Pokedex.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Pokedex.Models.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Pokedex
 {
@@ -35,10 +38,12 @@ namespace Pokedex
             //Add mysql
             services.AddEntityFrameworkMySql();
 
+            services.AddDbContext<PokedexContext>(x => x.UseMySql(Configuration.GetConnectionString("Pokedex")));
             services.AddTransient<FormattingService>();
+            services.AddIdentity<User, IdentityRole<int>>().AddEntityFrameworkStores<PokedexContext, int>();
+            services.Configure<IdentityOptions>(options => options.Password.RequireDigit = true);
 
             //Add the pokedex to the services container
-            services.AddDbContext<PokedexContext>(x => x.UseMySql(Configuration.GetConnectionString("Pokedex")));
             
             // Add the configuration to the services container
             services.AddSingleton<IConfigurationRoot>(Configuration);
@@ -50,10 +55,10 @@ namespace Pokedex
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, PokedexContext pokeDb)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, PokedexContext pokeDb, UserManager<User> um)
         {
             //ensure db is created/seeded
-            pokeDb.EnsurePokedexSeeded();
+            pokeDb.Setup();
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -73,6 +78,8 @@ namespace Pokedex
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
+
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {

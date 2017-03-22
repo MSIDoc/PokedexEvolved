@@ -15,11 +15,15 @@ namespace Pokedex
 {
     public class PokemonController : Controller
     {
+        #region Repository Constants & Variables
+
         private readonly PokedexContext _context;
         private readonly IConfigurationRoot _config;
         private readonly IHostingEnvironment _environment;
         const int pageSize = 20;
+        #endregion
 
+        #region Constructors
         public PokemonController(PokedexContext context, IConfigurationRoot config, IHostingEnvironment host)
         {
             _context = context;
@@ -27,39 +31,14 @@ namespace Pokedex
             _environment = host;
         }
 
+        #endregion
 
-        public async Task<IActionResult> SearchPokemon(string keywords)
-        {
-
-
-            if (string.IsNullOrWhiteSpace(keywords))
-                return RedirectToAction("Index");
-
-            //refactor this search into a helper class
-            var pokemon = _context.Pokemon.Where(p => p.Name.ToLower().Contains(keywords)); 
-        
-            var page = 0;
-            var totalCount = pokemon.Count();
-            var totalPages = totalCount / pageSize;
-            var previousPage = page - 1;
-            var nextPage = page + 1;
-
-            ViewBag.CurrentPage = page;
-            ViewBag.HasPreviousPage = previousPage >= 0;
-            ViewBag.PreviousPage = previousPage;
-            ViewBag.HasNextPage = nextPage < totalPages;
-            ViewBag.NextPage = nextPage;
-            ViewBag.TotalPages = totalPages;
-
-             var pokemonArr = await pokemon.Skip(page * pageSize).Take(pageSize).OrderBy(p => p.PokedexNumber).ToArrayAsync();
-
-            return PartialView("/Views/Partials/Pokemon/_AdminPokemonList.cshtml", pokemonArr);
-        }
+        #region Application Action Methods
 
         // GET: Pokemon
         public async Task<IActionResult> Index(int page = 0)
         {
-            
+
             var totalCount = _context.Pokemon.Count();
             var totalPages = totalCount / pageSize;
             var previousPage = page - 1;
@@ -71,7 +50,7 @@ namespace Pokedex
             ViewBag.HasNextPage = nextPage < totalPages;
             ViewBag.NextPage = nextPage;
             ViewBag.TotalPages = totalPages;
-
+            ViewData["PagingAction"] = "Index";
             var pokemon = await _context.Pokemon.Skip(page * pageSize).Take(pageSize).OrderBy(p => p.PokedexNumber).ToArrayAsync();
 
             return View(pokemon);
@@ -99,29 +78,26 @@ namespace Pokedex
         {
             var cpv = new CreatePokemonViewModel() { pokemon = new Pokemon() };
 
-             cpv.pokemon.Harvestables = await _context
-                                            .Harvestables
-                                            .Select(h => new HarvestItem()
-                                            {
-                                                IsHarvestable = false,
-                                                Name = h.Name
-                                            }).ToListAsync();
+            cpv.pokemon.Harvestables = await _context
+                                           .Harvestables
+                                           .Select(h => new HarvestItem()
+                                           {
+                                               IsHarvestable = false,
+                                               Name = h.Name
+                                           }).ToListAsync();
 
-            
+
 
             return View(cpv);
         }
 
         [HttpPost]
-        //public IActionResult Create([Bind("ID,BaseAttack,BaseDefense,BaseSpecialAttack,BaseSpecialDefense,BaseSpeed,Description,IsInMod,Name,PokedexNumber,tamingType")] Pokemon pokemon, 
-        //                                       ICollection<IFormFile> files,
-        //                                       [FromBody] int Harvestables)
         public IActionResult Create(CreatePokemonViewModel createPokemonViewModel, ICollection<IFormFile> files)
         {
-            
+
             if (PokemonHelper.ProcessImages(files, createPokemonViewModel.pokemon, _context, _environment, ModelState).Result)
                 return RedirectToAction("Index");
-            else 
+            else
                 return View();
 
         }
@@ -130,19 +106,19 @@ namespace Pokedex
         public async Task<IActionResult> Edit(int? id)
         {
             // invalid post, couldn't find 
-            if (id == null) return NotFound();            
+            if (id == null) return NotFound();
 
             //get pokemon
             var pokemon = await _context.Pokemon.Include(p => p.Harvestables).SingleOrDefaultAsync(m => m.ID == id);
 
             //not found pokemon
             if (pokemon == null) return NotFound();
-            
+
             //create view model
             var cpvm = new CreatePokemonViewModel()
             {
-                 pokemon = pokemon,
-                 PokeImages = await _context.PokemonImages.Where(p => p.PokemonID == id).ToListAsync()                 
+                pokemon = pokemon,
+                PokeImages = await _context.PokemonImages.Where(p => p.PokemonID == id).ToListAsync()
             };
 
             //prevent null reference...TODO check if there is a better way to write this null check
@@ -167,31 +143,31 @@ namespace Pokedex
                 return NotFound();
             }
 
-           
-                try
+
+            try
+            {
+                if (PokemonHelper.ProcessImages(files, pokemon, _context, _environment, ModelState).Result)
+                    return RedirectToAction("Index");
+                else
+                    return View(pokemon);
+                //_context.Update(pokemon);
+                //await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PokemonExists(pokemon.ID))
                 {
-                    if (PokemonHelper.ProcessImages(files, pokemon, _context, _environment, ModelState).Result)
-                        return RedirectToAction("Index");
-                    else
-                        return View(pokemon);
-                    //_context.Update(pokemon);
-                    //await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!PokemonExists(pokemon.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
 
 
-                        throw;
-                    }
+                    throw;
                 }
-                
-            
+            }
+
+
             //return View(pokemon);
         }
 
@@ -223,15 +199,21 @@ namespace Pokedex
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        #endregion
 
-
+        #region JavascriptActions
+        /// <summary>
+        /// Search for a pokemon by pokedex number.
+        /// </summary>
+        /// <param name="id">The pokedex number.</param>
+        /// <returns></returns>
         public async Task<IActionResult> Get(int id)
         {
             //find by the dex number
-            var poke  = await _context.Pokemon.Include(p => p.Harvestables).Where(pokemon => pokemon.PokedexNumber == id).Include(p => p.Harvestables).FirstOrDefaultAsync();
+            var poke = await _context.Pokemon.Include(p => p.Harvestables).Where(pokemon => pokemon.PokedexNumber == id).Include(p => p.Harvestables).FirstOrDefaultAsync();
 
             // couldn't find it
-            if ( poke == null ) { return NotFound(); }
+            if (poke == null) { return NotFound(); }
 
             //can't find harvestables, populate defaults with No
             if (poke.Harvestables == null || poke.Harvestables.Count == 0)
@@ -239,33 +221,41 @@ namespace Pokedex
 
             // return pokeview
             var vm = new PokeView(_config) { Pokemon = poke, PokeImages = await _context.PokemonImages.Where(img => img.PokemonID == id).ToListAsync() };
-
-
-
+            
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 return PartialView("/Views/Partials/PokeDetails.cshtml", vm);
 
             return View("/Views/Partials/PokeDetails.cshtml", vm);
         }
 
-        [HttpPost]        
+       /// <summary>
+       /// Search thorugh the pokedex for a name of a pokemon
+       /// </summary>
+       /// <remarks>This method is called via Javascript</remarks>
+       /// <param name="keywords">keyphrase used to match against a name</param>
+       /// <returns>Partial View of pokemon list</returns>
         public async Task<IActionResult> Search(string keywords)
         {
+            
+            PokeView pv = new PokeView(_config);
 
-            var FilteredPokemon = await _context.Pokemon.Where(pokemon => pokemon.Name.ToLower() == keywords.ToLower()).ToListAsync();
-                       
-
-            return PartialView("/Views/Pokemon/Index.cshtml", FilteredPokemon);
+            //search, return everything if it's an empty string
+            if (string.IsNullOrWhiteSpace(keywords))
+                pv.PokemonList = await _context.Pokemon.Where(p => p.IsInMod).ToListAsync();
+            else
+                pv.PokemonList = await _context.Pokemon.Where(pokemon => pokemon.Name.ToLower().Contains(keywords.ToLower()) && pokemon.IsInMod)
+                                               .ToListAsync();
+                        
+            return PartialView("/Views/Partials/PokeList.cshtml", pv);
         }
 
-        
-        public async Task<IActionResult> InModOnly(bool inmod)
+        #region Admin Js Actions
+        public async Task<IActionResult> SearchAll(bool inmod, string keywords, int page = 0)
         {
-            var page = 0;
+            
+            var q = _context.Pokemon.Where(p => p.IsInMod);
 
-            var filteredPokemon = await _context.Pokemon.Skip(page * pageSize).Take(pageSize).Where(p => p.IsInMod).ToListAsync();
-
-            var totalCount = filteredPokemon.Count();
+            var totalCount = q.Count();
             var totalPages = totalCount / pageSize;
             var previousPage = page - 1;
             var nextPage = page + 1;
@@ -276,13 +266,51 @@ namespace Pokedex
             ViewBag.HasNextPage = nextPage < totalPages;
             ViewBag.NextPage = nextPage;
             ViewBag.TotalPages = totalPages;
+            ViewData["PagingAction"] = "SearchPokemon";
+
+            var filteredPokemon = await q.Skip(page * pageSize).Take(pageSize).ToListAsync();
 
             return PartialView("/Views/Partials/Pokemon/_AdminPokemonList.cshtml", filteredPokemon);
         }
-        
+
+        public async Task<IActionResult> SearchPokemon(string keywords)
+        {
+
+            if (string.IsNullOrWhiteSpace(keywords))
+                return RedirectToAction("Index");
+
+            //refactor this search into a helper class
+            var pokemon = _context.Pokemon.Where(p => p.Name.ToLower().Contains(keywords));
+
+            var page = 0;
+            var totalCount = pokemon.Count();
+            var totalPages = totalCount / pageSize;
+            var previousPage = page - 1;
+            var nextPage = page + 1;
+
+            ViewBag.CurrentPage = page;
+            ViewBag.HasPreviousPage = previousPage >= 0;
+            ViewBag.PreviousPage = previousPage;
+            ViewBag.HasNextPage = nextPage < totalPages;
+            ViewBag.NextPage = nextPage;
+            ViewBag.TotalPages = totalPages;
+            
+
+            var pokemonArr = await pokemon.Skip(page * pageSize).Take(pageSize).OrderBy(p => p.PokedexNumber).ToArrayAsync();
+
+            return PartialView("/Views/Partials/Pokemon/_AdminPokemonList.cshtml", pokemonArr);
+        }
+        #endregion
+
+        #endregion
+
+        #region Utility Methods
+
         private bool PokemonExists(int id)
         {
             return _context.Pokemon.Any(e => e.ID == id);
         }
+
+        #endregion
     }
 }

@@ -13,6 +13,8 @@ namespace Pokedex.Models.ViewModels
             _config = config;
         }
 
+        public HomeContent HomeContent { get; set; }
+
         public Pokemon Pokemon { get; set; }
         
         public ArkPokemonStats PokemonArkStats { get { return new ArkPokemonStats(Pokemon, _config); } }

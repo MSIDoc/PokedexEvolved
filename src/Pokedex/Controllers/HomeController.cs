@@ -24,7 +24,7 @@ namespace Pokedex.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var PokeList = await _PokedexContext.Pokemon.Include(p => p.Harvestables).ToListAsync();
+            var PokeList = await _PokedexContext.Pokemon.Include(p => p.Harvestables).Where(p => p.IsInMod).ToListAsync();
 
             PokeView pv;
 
@@ -37,6 +37,8 @@ namespace Pokedex.Controllers
             {
                 pv = new PokeView(_config) { PokemonList = PokeList, Pokemon = null };
             }
+
+            pv.HomeContent = new HomeContent();
 
             return View(pv);
         }

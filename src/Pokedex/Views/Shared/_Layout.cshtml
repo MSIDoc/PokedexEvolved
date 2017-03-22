@@ -19,34 +19,15 @@
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body>
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Pokedex</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>*@
-
+ 
     @*begin Navbar*@
     <nav class="navbar navbar-inverse navbar-fixed-top visible-lg">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
                 <li><a href="/"><span id="home-glyph" class="glyphicon glyphicon-home"></span></a></li>
-                <li><a href="/pokemon">Pokemon</a></li>
+                <li><a href="@Url.Action("Index", "Pokemon")">Pokemon</a></li>
                 <li><a href="/craftables">Craftables</a></li>
+                <li class="pull-right"><a href="@Url.Action("Login","Account")">Login&nbsp;<span class="glyphicon glyphicon-log-in"></span></a></li>
             </ul>
             
         </div>
@@ -55,14 +36,9 @@
 
 
     <div id="main-content" class="container-fluid body-content">
-        @*<div id="app-content">*@
+     
             @RenderBody()
-        @*</div>*@
-        
-        @*<hr />
-        <footer>
-            <p>&copy; 2017 - Pokedex</p>
-        </footer>*@
+      
     </div>
 
     <environment names="Development">

@@ -18,7 +18,11 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
+}
+
+med-bx {
+    max-width:280px;
 }
 
 /* Carousel */
@@ -272,4 +276,8 @@ body, html {
   .carousel-caption {
     display: none
   }
+}
+
+.btn-group {
+    padding-top:2em;
 }

@@ -1,0 +1,66 @@
+﻿@model LoginViewModel
+<div class="container">
+    <div class="row">
+        @*<div class="col-lg-2">
+
+        </div>*@
+        <div class="col-lg-offset-2 col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h2 align="center">Login</h2></div>
+                <div class="panel-body">
+                    <form asp-action="Login" asp-controller="Account" method="post" class="form-horizontal">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <div class="row">
+                            <div class="col-xs-offset-4 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="Username"></label>
+                                    <input asp-for="Username" type="text" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="Password"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-offset-4 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="Password"></label>
+                                    <input asp-for="Password" type="text" class="form-control" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-offset-4 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="RememberMe"></label>
+                                    <input asp-for="RememberMe" type="checkbox" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a href="@Url.Action("Register", "Account")" class="btn btn-link">Don't have an account?</a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-offset-3 col-xs-6 text-center">
+                                <div class="btn-group">
+                                    <input type="submit" class="btn btn-danger btn-primary" value="Cancel" />
+                                    <input type="submit" class="btn btn-success btn-primary" value="Log in" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
