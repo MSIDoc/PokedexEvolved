@@ -58,7 +58,7 @@ namespace Pokedex
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, PokedexContext pokeDb, UserManager<User> um)
         {
             //ensure db is created/seeded
-            pokeDb.Setup();
+            pokeDb.Setup(env);
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();

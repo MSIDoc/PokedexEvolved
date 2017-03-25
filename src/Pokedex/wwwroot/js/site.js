@@ -51,7 +51,7 @@ $(document).ready(function () {
     
 
     //partial rendering for pokemon content
-    $('#pokemon-list a').on("click", function () {
+    $('#pokemon-list').on("click", 'a', function () {
         var PokedexID = $(this).data('dex-id');
         var card = $('#card');
         
@@ -170,12 +170,9 @@ $(document).ready(function () {
             
             var keywords = $(this).val();
             
+            var url = '/Pokemon/Search/?keywords=' + encodeURIComponent(keywords);
                 
-                $('#pokemon-list').load(url);
-            
-            //else            
-                //location.href = "/Home";           
-
+            $('#pokemon-list').load(url);
         });
 
 

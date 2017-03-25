@@ -33,12 +33,12 @@ namespace Pokedex.Controllers
                 var pokeImages = await _PokedexContext.PokemonImages.Where(img => img.PokemonID == PokeList.First().ID).ToListAsync();
                 pv = new PokeView(_config) { PokemonList = PokeList, Pokemon = PokeList.First(), PokeImages = pokeImages };                
             }
-            else
-            {
+            else            
                 pv = new PokeView(_config) { PokemonList = PokeList, Pokemon = null };
-            }
 
-            pv.HomeContent = new HomeContent();
+
+
+            pv.HomeContent = await _PokedexContext.HomePageContent.FirstAsync();
 
             return View(pv);
         }
