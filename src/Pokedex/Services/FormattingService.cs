@@ -1,4 +1,6 @@
-﻿namespace Pokedex.Services
+﻿using System;
+
+namespace Pokedex.Services
 {
     public class FormattingService
     {
@@ -7,6 +9,11 @@
         {
 
             return x.ToString("00.00");
+        }
+
+        public string AsDatePostedFormat(DateTime dt)
+        {
+            return dt.ToString("d");
         }
 
     }

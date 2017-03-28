@@ -1,11 +1,18 @@
 ﻿@model Pokedex.Models.Entities.HomeContent
+@inject Pokedex.Services.FormattingService Formatter
 
 <div id="home-content">
     <div class="row">
         <div class="col-lg 12">
-            <div class="panel">
+            <div class="panel panel-default">
                 <div class="panel-heading">
-                    @Model.Title - @Model.SubTitle <span class="pull-right">@Model.DatePosted</span>
+                    <h2> @Model.Title - @Model.SubTitle </h2>
+
+
+                    <span class="pull-right">
+                        <span class="dp">Date Posted:</span>
+                        @Formatter.AsDatePostedFormat(Model.DatePosted)
+                    </span>
                 </div>
                 <div class="panel-body">
                     @Model.Body

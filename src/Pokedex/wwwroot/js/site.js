@@ -107,7 +107,7 @@ $(document).ready(function () {
             var kw = $(this).val();
             var p = 0;
             var a = $('#filter-active-only').is(':checked');
-            debugger;
+
             SAP(p, kw, a);
             
         });
@@ -151,10 +151,11 @@ $(document).ready(function () {
 
         $('#pokemon-search').on('keyup', function () {
             
-            var keywords = $(this).val();            
-            var url = '/Pokemon/Search/?keywords=' + keywords;
-            $('#pokemon-list').load(url);            
-
+            var keywords = $(this).val();
+            
+            var url = '/Pokemon/Search/?keywords=' + encodeURIComponent(keywords);
+                
+            $('#pokemon-list').load(url);
         });
 
         $('.pagination > li > a').click(function() {

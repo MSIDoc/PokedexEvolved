@@ -2,21 +2,27 @@
 using System.Linq;
 using Pokedex.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
+using System;
 
 namespace Pokedex.Services
 {
     public static class PokedexSeeder
     {
-        internal static void Setup(this PokedexContext context)
+        internal async static void Setup(this PokedexContext context, IHostingEnvironment env)
         {
+            await context.Database.EnsureCreatedAsync();
+
             EnsurePokedexSeeded(ref context);
             EnsureRolesSeeded(ref context);
+
+            if (env.IsDevelopment()) 
+                EnsureDefaultContentSeeded(ref context);
         }
 
         private static void EnsurePokedexSeeded(ref PokedexContext context)
         {
-            context.Database.EnsureCreated();
-
+           
             if (!context.Pokemon.Any())
             {
                     context.Pokemon.AddRange
@@ -850,14 +856,32 @@ namespace Pokedex.Services
 
         private static void EnsureRolesSeeded(ref PokedexContext context)
         {
-            context.Database.EnsureCreated();
-
+           
             if (!context.Roles.Any())
             {
                 context.Roles.Add(new IdentityRole<int>() { Name = "admin", NormalizedName = "Admin", Id = 1 });
                 context.Roles.Add(new IdentityRole<int>() { Name = "trainer", NormalizedName = "Trainer", Id = 2 });
+
+                context.SaveChanges();
             }
+
         }
         
+        private static void EnsureDefaultContentSeeded(ref PokedexContext context)
+        {
+            if (!context.HomePageContent.Any())
+            {
+                context.HomePageContent.Add(new HomeContent()
+                {
+                    AuthoredBy = "ddeamaral",
+                    Body = @"This is a sample home page content. This is where things like patch notes, announcements and other things will be announced.",
+                    DatePosted = DateTime.Now,
+                    Title = "Patch 1.62 is now live!",
+                    SubTitle = @"Message Mystic Academy for bugs/issues"
+                });
+
+                context.SaveChanges();
+            }
+        }
     }
 }
