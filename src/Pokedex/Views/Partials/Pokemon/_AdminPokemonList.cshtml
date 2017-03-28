@@ -95,7 +95,8 @@
 
             @for (int i = 0; i < ViewBag.TotalPages; i++)
             {
-                <li><a @(ViewBag.CurrentPage == i ? @"class=active" : "") href="@Url.Action(ViewData["PagingAction"].ToString(), "Pokemon", new { page = i, inmod = ViewData["PagingAction"].ToString().Equals("InModOnly") ? "InModOnly" : "Index" })">@(i + 1)</a></li>
+                @*<li><a @(ViewBag.CurrentPage == i ? @"class=active" : "") href="@Url.Action(ViewData["PagingAction"].ToString(), "Pokemon", new { page = i, inmod = ViewData["PagingAction"].ToString().Equals("InModOnly") ? "InModOnly" : "Index" })">@(i + 1)</a></li>*@
+                <li><a class="pager @(ViewBag.CurrentPage == i ? @" active" : "")">@(i + 1)</a></li>
             }
 
             @if (ViewBag.HasNextPage)

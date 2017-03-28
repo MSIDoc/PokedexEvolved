@@ -6,8 +6,8 @@ using Microsoft.Extensions.Logging;
 using Pokedex.Models.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Pokedex.Services;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Pokedex.Models.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
 namespace Pokedex

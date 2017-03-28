@@ -42,16 +42,16 @@ function loadPokemonDetails(url)
 
 function SAP(p, kw, a)
 {
-    var url = '/Pokemon/Search/?keywords=' + encodeURIComponent(keywords) + '&page=' + encodeURIComponent(p) + '&inmodonly=' + a;
-
+    
+    var url = "/Pokemon/SearchAll/?keywords=" + encodeURIComponent(kw) + "&page=" + encodeURIComponent(p) + '&inmod=' + a;
+    $('#pokemon-tbl').load(url);
     
 }
 
-$(document).ready(function () {
-    
+$(document).ready(function () {    
 
     //partial rendering for pokemon content
-    $('#pokemon-list a').on("click", function () {
+    $('#pokemon-list a').on("click", '.pokemon', function () {
         var PokedexID = $(this).data('dex-id');
         var card = $('#card');
         
@@ -79,10 +79,6 @@ $(document).ready(function () {
 
     /* Begin file Upload stuff */
         $('.file-upload').change(function (event) {
-
-            console.log(event);
-            console.log($(this));
-
             if ($(this) !== undefined && $(this)[0].multiple && $(this)[0].files.length > 0) {
 
                 for (var i = 0; i < $(this)[0].files.length; i++) {
@@ -111,31 +107,18 @@ $(document).ready(function () {
             var kw = $(this).val();
             var p = 0;
             var a = $('#filter-active-only').is(':checked');
-
+            debugger;
             SAP(p, kw, a);
-            //if (keywords.length > 0)
-            //{
-            //    var url = '/Pokemon/SearchPokemon/?keywords=' + keywords;
-            //    $('#pokemon-tbl').load(url);
-            //} else 
-            //    location.href = "/Pokemon";
             
         });
     
         $('#filter-active-only').on('change', function () {
 
-            var kw = $(this).val();
+            var kw = $('#admin-pokemon-search').val();
             var p = 0;
             var a = $('#filter-active-only').is(':checked');
-            //if ($(this).is(':checked'))
-            //{                
-            //    var url = '/Pokemon/SearchAll/?inmod=' + $(this).is(':checked');
-            //    console.log(url);
-            //    $('#pokemon-tbl').load(url);
-            //}
-            //else
-            //    location.href = "/Pokemon";
-                        
+            debugger;
+            SAP(p, kw, a);
         });
     
         $('#card').flip({
@@ -168,25 +151,20 @@ $(document).ready(function () {
 
         $('#pokemon-search').on('keyup', function () {
             
-            var keywords = $(this).val();
-            
-                
-                $('#pokemon-list').load(url);
-            
-            //else            
-                //location.href = "/Home";           
+            var keywords = $(this).val();            
+            var url = '/Pokemon/Search/?keywords=' + keywords;
+            $('#pokemon-list').load(url);            
 
         });
 
-
-        $('li.active').on('click', function (e) {
-
-            var kw = $('#pokemon-search').val();
+        $('.pagination > li > a').click(function() {
+            alert('');
+            var kw = $('#admin-pokemon-search').val();
             var a = $('#filter-active-only').is(':checked');
             var p = $(this).html();
 
-            SAP(p, kw, a);
             debugger;
+            SAP(p, kw, a);
 
         });
 });

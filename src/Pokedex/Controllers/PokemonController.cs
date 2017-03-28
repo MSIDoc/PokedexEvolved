@@ -253,7 +253,10 @@ namespace Pokedex
         public async Task<IActionResult> SearchAll(bool inmod, string keywords, int page = 0)
         {
             
-            var q = _context.Pokemon.Where(p => p.IsInMod);
+            var q = _context.Pokemon.Where(p => p.IsInMod == inmod);
+
+            if (!string.IsNullOrWhiteSpace(keywords))
+                q = q.Where(p => p.Name.ToLower().Contains(keywords));
 
             var totalCount = q.Count();
             var totalPages = totalCount / pageSize;
@@ -268,7 +271,7 @@ namespace Pokedex
             ViewBag.TotalPages = totalPages;
             ViewData["PagingAction"] = "SearchPokemon";
 
-            var filteredPokemon = await q.Skip(page * pageSize).Take(pageSize).ToListAsync();
+          var filteredPokemon = await q.Skip(page * pageSize).Take(pageSize).ToListAsync();
 
             return PartialView("/Views/Partials/Pokemon/_AdminPokemonList.cshtml", filteredPokemon);
         }

@@ -6,7 +6,7 @@ using Pokedex.Models.ViewModels;
 
 namespace Pokedex.Controllers
 {
-    [Route("/Trainer/")]
+    //[Route("/Trainer/")]
     public class AccountController : Controller
     {
         private readonly PokedexContext _context;
@@ -19,7 +19,7 @@ namespace Pokedex.Controllers
         }
 
         [HttpGet]
-        [Route("/Trainer/Signin")]
+        //[Route("/Trainer/Signin")]
         public IActionResult Login()
         {
             return View();
@@ -34,8 +34,8 @@ namespace Pokedex.Controllers
             return NotFound();
         }
 
-        [HttpGet]
-        [Route("/Trainer/Signup")]
+        //[HttpGet]
+        //[Route("/Trainer/Signup")]
         public IActionResult Register()
         {
             return View();
